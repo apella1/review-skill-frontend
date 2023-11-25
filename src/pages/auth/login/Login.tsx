@@ -1,6 +1,6 @@
 import { Button, Stack, TextField, Typography } from "@mui/material";
 import { AuthLayout } from "../../../layouts";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { client } from "../../../axios/axios";
 
@@ -9,6 +9,7 @@ type LoginData = {
   password: string;
 };
 export default function Login() {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState<LoginData>({
     email: "",
     password: "",
@@ -23,6 +24,7 @@ export default function Login() {
     try {
       const res = await client.post("/auth/login", formData);
       console.log(res);
+      setTimeout(() => navigate("/dashboard"), 3000);
     } catch (error) {
       console.error(error);
     }

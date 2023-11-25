@@ -1,5 +1,9 @@
+import { ProtectedLayout } from "../../layouts";
+
 export default function Dashboard() {
   return (
-    <section>Dashboard</section>
-  )
+    <ProtectedLayout>
+      <section>Dashboard</section>
+    </ProtectedLayout>
+  );
 }
