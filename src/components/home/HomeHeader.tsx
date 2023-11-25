@@ -6,7 +6,7 @@ export default function HomeHeader() {
   const navigate = useNavigate();
   return (
     <header className="h-screen py-8 flex">
-      <Stack spacing={1} className="basis-1/2">
+      <Stack spacing={1} className="basis-1/2 pt-16">
         <Typography variant="h1" component="h1">
           ReviewSkill
         </Typography>
@@ -16,9 +16,7 @@ export default function HomeHeader() {
         <Typography variant="h4">
           Build Your Skills In a Science-Based Way
         </Typography>
-        <Button onClick={() => navigate("/auth/sign-up")}>
-          Get Started
-        </Button>
+        <Button onClick={() => navigate("/auth/sign-up")}>Get Started</Button>
       </Stack>
       <Stack>
         <img src={homeHeader} alt="" />
