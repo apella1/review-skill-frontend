@@ -1,7 +1,12 @@
+import { HomeHeader } from "../../components";
+import { MainLayout } from "../../layouts";
+
 export default function Home() {
   return (
-      <section className="">
-          <h1>home page</h1>
+    <section className="">
+      <MainLayout>
+        <HomeHeader />
+      </MainLayout>
     </section>
-  )
+  );
 }
