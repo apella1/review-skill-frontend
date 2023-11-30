@@ -60,28 +60,33 @@ export default function DashboardSettings() {
                   </button>
                 </div>
               </section>
-              <div className="flex justify-between items-center">
-                <label
-                  htmlFor="phone"
-                  className="text-[#6C6C6C] text-[17px] leading-[20px] font-medium"
-                >
-                  2-FA Authentication
-                </label>
-                <div
-                  className={`rounded-full w-10 py-[2px] ${
-                    twoFactorAuth ? "bg-[#085ED8]" : "bg-[#5570F166]"
-                  }`}
-                >
+              <section className="flex flex-col space-y-6 p-8 border border-gray-200">
+                <h2 className="text-[#6C6C6C] text-[17px] leading-[20px] font-medium">
+                  Toggle Two-Factor Authentication
+                </h2>
+                <div className="flex justify-between items-center">
+                  <label
+                    htmlFor="phone"
+                    className="text-[#6C6C6C] text-[17px] leading-[20px] font-medium"
+                  >
+                    2-FA Authentication
+                  </label>
                   <div
-                    onClick={handleToggle}
-                    className={`w-4 h-4 rounded-full shadow-md transform transition duration-300 ease-in-out cursor-pointer ${
-                      twoFactorAuth
-                        ? "bg-[#ffffff] translate-x-6"
-                        : "translate-x-0 bg-[#BBC5CB] "
+                    className={`rounded-full w-10 py-[2px] ${
+                      twoFactorAuth ? "bg-[#085ED8]" : "bg-[#5570F166]"
                     }`}
-                  ></div>
+                  >
+                    <div
+                      onClick={handleToggle}
+                      className={`w-4 h-4 rounded-full shadow-md transform transition duration-300 ease-in-out cursor-pointer ${
+                        twoFactorAuth
+                          ? "bg-[#ffffff] translate-x-6"
+                          : "translate-x-0 bg-[#BBC5CB] "
+                      }`}
+                    ></div>
+                  </div>
                 </div>
-              </div>
+              </section>
             </section>
           </form>
         </section>
