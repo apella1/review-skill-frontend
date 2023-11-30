@@ -9,3 +9,13 @@ export type UserData = {
   email: string;
   password: string;
 };
+
+// named properties to avoid a clash with mui's ButtonProps
+export type ButtonProperties = {
+  action?: () => void;
+  title: string
+  bgColor: string;
+  textColor: string;
+  rounded?: boolean;
+  full?: boolean;
+};

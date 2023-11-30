@@ -1,8 +1,11 @@
-import { Button, Stack, TextField, Typography } from "@mui/material";
-import { AuthLayout } from "../../../layouts";
-import { Link, useNavigate } from "react-router-dom";
+import { Stack, TextField, Typography } from "@mui/material";
 import { useState } from "react";
+import { FaGithub } from "react-icons/fa";
+import { FcGoogle } from "react-icons/fc";
+import { Link, useNavigate } from "react-router-dom";
 import { client } from "../../../axios/axios";
+import { CustomButton } from "../../../components";
+import { AuthLayout } from "../../../layouts";
 
 type LoginData = {
   email: string;
@@ -34,9 +37,15 @@ export default function Login() {
     <AuthLayout>
       <section className="py-32 px-28 flex flex-col justify-center">
         <Stack spacing={4}>
-          <Stack className="">
-            <Button>Login With Google</Button>
-            <Button>Login With GitHub</Button>
+          <Stack spacing={2} className="">
+            <div className="w-full py-3 flex items-center space-x-6 justify-center border border-gray-200">
+              <FcGoogle className="text-2xl" />
+              <p>Log In With Google</p>
+            </div>
+            <div className="w-full py-3 flex items-center space-x-6 justify-center border border-gray-200">
+              <FaGithub className="text-2xl" />
+              <p>Log In With GitHub</p>
+            </div>
           </Stack>
           <form action="" className="flex flex-col space-y-4 w-full">
             <TextField
@@ -53,7 +62,15 @@ export default function Login() {
               value={formData.password}
               onChange={handleChange}
             />
-            <Button onClick={() => handleLogin}>Login</Button>
+            <CustomButton
+              button={{
+                title: "Login",
+                bgColor: "bg-[#035afc]",
+                textColor: "text-white",
+                action: () => handleLogin,
+                full: true,
+              }}
+            />
           </form>
           <section className="flex items-center space-x-2 self-center">
             <Typography>Don't Have an Account?</Typography>

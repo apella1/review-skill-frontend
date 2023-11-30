@@ -1,9 +1,12 @@
-import { Button, Stack, TextField, Typography } from "@mui/material";
-import { AuthLayout } from "../../../layouts";
+import { Stack, TextField, Typography } from "@mui/material";
 import { useState } from "react";
-import { UserData } from "../../../types/types";
+import { FcGoogle } from "react-icons/fc";
+import { FaGithub } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { client } from "../../../axios/axios";
+import { CustomButton } from "../../../components";
+import { AuthLayout } from "../../../layouts";
+import { UserData } from "../../../types/types";
 
 export default function SignUp() {
   const [confirmPassword, setConfirmPassword] = useState<string>("");
@@ -40,9 +43,15 @@ export default function SignUp() {
     <AuthLayout>
       <section className="py-16 px-28">
         <Stack spacing={4}>
-          <Stack className="">
-            <Button>Sign Up With Google</Button>
-            <Button>Sign Up With GitHub</Button>
+          <Stack spacing={2} className="">
+            <div className="w-full py-3 flex items-center space-x-6 justify-center border border-gray-200">
+              <FcGoogle className="text-2xl" />
+              <p>Sign Up With Google</p>
+            </div>
+            <div className="w-full py-3 flex items-center space-x-6 justify-center border border-gray-200">
+              <FaGithub className="text-2xl" />
+              <p>Sign Up With GitHub</p>
+            </div>
           </Stack>
           <form action="" className="flex flex-col space-y-4 w-full">
             <TextField
@@ -88,7 +97,15 @@ export default function SignUp() {
             <Typography className="self-center">
               By signing up you agree to our Terms of Service and Privacy Policy
             </Typography>
-            <Button onClick={() => handleRegistration}>Create Account</Button>
+            <CustomButton
+              button={{
+                title: "Sign Up",
+                bgColor: "bg-[#035afc]",
+                textColor: "text-white",
+                action: () => handleRegistration,
+                full: true,
+              }}
+            />
           </form>
           <section className="flex items-center space-x-2 self-center">
             <Typography>Already Have an Account?</Typography>

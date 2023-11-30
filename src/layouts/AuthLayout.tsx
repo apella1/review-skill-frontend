@@ -11,12 +11,14 @@ export default function AuthLayout({
   return (
     <Stack className="h-screen fixed">
       <nav className="flex justify-between items-center p-8">
-        <Link to="/">ReviewSkill</Link>
+        <Link to="/" className="text-[#035afc] font-semibold text-[26px]">
+          ReviewSkill
+        </Link>
         <div className="flex items-center space-x-6 text-[17px] leading-[22px] font-medium">
           <Link
             to="/auth/sign-up"
             className={`${
-              location.pathname === "/auth/sign-up" ? "text-blue-400" : ""
+              location.pathname === "/auth/sign-up" ? "text-[#035afc]" : ""
             }`}
           >
             Sign Up
@@ -24,7 +26,7 @@ export default function AuthLayout({
           <Link
             to="/auth/login"
             className={`${
-              location.pathname === "/auth/login" ? "text-blue-400" : ""
+              location.pathname === "/auth/login" ? "text-[#035afc]" : ""
             }`}
           >
             Log In
