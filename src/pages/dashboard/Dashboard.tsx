@@ -4,7 +4,7 @@ export default function Dashboard() {
   return (
     <ProtectedLayout>
       <DashboardLayout>
-        <section>Dashboard</section>
+        <section>Statistics</section>
       </DashboardLayout>
     </ProtectedLayout>
   );

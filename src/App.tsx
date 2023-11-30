@@ -16,7 +16,7 @@ import { theme } from "./theme/theme";
 
 const router = createBrowserRouter([
   { path: "/", element: <Home /> },
-  { path: "/dashboard", element: <Dashboard /> },
+  { path: "/dashboard/summary", element: <Dashboard /> },
   { path: "/dashboard/today", element: <TodayCards /> },
   { path: "/dashboard/notes", element: <DashboardNotes /> },
   { path: "/dashboard/flashcards", element: <FlashCards /> },

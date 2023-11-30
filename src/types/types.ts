@@ -19,3 +19,8 @@ export type ButtonProperties = {
   rounded?: boolean;
   full?: boolean;
 };
+
+export type SidebarLink = {
+  title: string;
+  link: string;
+};

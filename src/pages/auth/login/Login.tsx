@@ -27,7 +27,7 @@ export default function Login() {
     try {
       const res = await client.post("/auth/login", formData);
       console.log(res);
-      setTimeout(() => navigate("/dashboard"), 3000);
+      setTimeout(() => navigate("/dashboard/summary"), 3000);
     } catch (error) {
       console.error(error);
     }
