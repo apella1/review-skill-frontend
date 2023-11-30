@@ -26,9 +26,12 @@ export default function DashboardLayout({
     <section className="flex">
       <section className="fixed w-[17%] flex flex-col justify-between space-y-6 px-4 py-4 h-screen">
         <div>
-          <h1 className="text-[#035afc] font-semibold text-[26px] pb-8">
+          <Link
+            to={"/"}
+            className="text-[#035afc] font-semibold text-[26px] pb-8"
+          >
             ReviewSkill
-          </h1>
+          </Link>
           <div className="flex flex-col space-y-2">
             {sidebarLinks.map((sidebarLink, index) => (
               <Link
