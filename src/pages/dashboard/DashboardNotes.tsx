@@ -1,10 +1,10 @@
 import { DashboardLayout, ProtectedLayout } from "../../layouts";
 
-export default function Dashboard() {
+export default function DashboardNotes() {
   return (
     <ProtectedLayout>
       <DashboardLayout>
-        <section>Dashboard</section>
+        <div>DashboardNotes</div>
       </DashboardLayout>
     </ProtectedLayout>
   );
