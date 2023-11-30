@@ -50,7 +50,7 @@ export default function DashboardLayout({
           <p className="text-[#035afc] font-medium">ReviewSkill</p>
         </div>
       </section>
-      <section className="min-h-screen ml-auto flex flex-col w-[83%] p-4">
+      <section className="min-h-screen ml-auto flex flex-col space-y-6 w-[83%] p-4">
         <section className="flex items-center justify-between">
           <TextField
             type="search"
