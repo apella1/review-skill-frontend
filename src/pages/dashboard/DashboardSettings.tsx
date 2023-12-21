@@ -7,6 +7,17 @@ export default function DashboardSettings() {
   const handleToggle = () => {
     setTwoFactorAuth((prev) => !prev);
   };
+  const [passwordData, setPasswordData] = useState({
+    currentPass: "",
+    newPass: "",
+    newPassConf: "",
+  });
+
+  const handlePasswordDataChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setPasswordData((prev) => ({ ...prev, [name]: value }));
+  };
+
   return (
     <ProtectedLayout>
       <DashboardLayout>
@@ -28,6 +39,9 @@ export default function DashboardSettings() {
                     </label>
                     <input
                       type="password"
+                      name="currentPass"
+                      value={passwordData.currentPass}
+                      onChange={handlePasswordDataChange}
                       className="border border-[#D9D9D9] py-2 px-4 text-[#000000] text-[14px] leading-[20px] rounded-[8px] placeholder:text-[#7C7C8D] placeholder:text-[14px] placeholder:leading-[20px]"
                     />
                   </div>
@@ -40,6 +54,9 @@ export default function DashboardSettings() {
                     </label>
                     <input
                       type="password"
+                      name="newPass"
+                      value={passwordData.newPass}
+                      onChange={handlePasswordDataChange}
                       className="border border-[#D9D9D9] py-2 px-4 text-[#000000] text-[14px] leading-[20px] rounded-[8px] placeholder:text-[#7C7C8D] placeholder:text-[14px] placeholder:leading-[20px]"
                     />
                   </div>
@@ -52,6 +69,9 @@ export default function DashboardSettings() {
                     </label>
                     <input
                       type="password"
+                      name="newPassConf"
+                      value={passwordData.newPassConf}
+                      onChange={handlePasswordDataChange}
                       className="border border-[#D9D9D9] py-2 px-4 text-[#000000] text-[14px] leading-[20px] rounded-[8px] placeholder:text-[#7C7C8D] placeholder:text-[14px] placeholder:leading-[20px]"
                     />
                   </div>
