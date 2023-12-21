@@ -35,7 +35,7 @@ export default function Login() {
 
   return (
     <AuthLayout>
-      <section className="py-32 px-28 flex flex-col justify-center">
+      <section className="xl:py-32 py-16 xl:px-28 md:px-16 px-8 w-full flex flex-col justify-center">
         <Stack spacing={4}>
           <Stack spacing={2} className="">
             <div className="w-full py-3 flex items-center space-x-6 justify-center border border-gray-200">
