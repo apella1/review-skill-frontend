@@ -6,7 +6,7 @@ export default function MainLayout({
   children: React.ReactNode;
 }) {
   return (
-    <section className="px-16 2xl:px-32 py-8">
+    <section className="px-8 lg:px-16 2xl:px-32 py-8">
       <Navbar />
       {children}
       <Footer />
