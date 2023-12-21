@@ -9,8 +9,12 @@ export default function Footer() {
         <Typography>&copy; {new Date().getFullYear()} ReviewSkill</Typography>
       </Stack>
       <div className="flex items-center space-x-8">
-        <Link to="/terms-of-service">Terms Of Service</Link>
-        <Link to="/privacy-policy">Privacy Policy</Link>
+        <Link to="/terms-of-service">
+          <Typography>Terms of Service</Typography>
+        </Link>
+        <Link to="/privacy-policy">
+          <Typography>Privacy Policy</Typography>
+        </Link>
       </div>
     </footer>
   );

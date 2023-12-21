@@ -22,6 +22,7 @@ export default function DashboardLayout({
     setSearch(value);
   };
   const location = useLocation();
+
   return (
     <section className="flex">
       <section className="fixed w-[17%] flex flex-col justify-between space-y-6 px-4 py-4 h-screen">

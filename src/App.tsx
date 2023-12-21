@@ -3,6 +3,7 @@ import {
   Dashboard,
   DashboardNotes,
   DashboardSettings,
+  Docs,
   FlashCards,
   Home,
   Login,
@@ -16,6 +17,7 @@ import { theme } from "./theme/theme";
 
 const router = createBrowserRouter([
   { path: "/", element: <Home /> },
+  { path: "/docs", element: <Docs /> },
   { path: "/dashboard/summary", element: <Dashboard /> },
   { path: "/dashboard/today", element: <TodayCards /> },
   { path: "/dashboard/notes", element: <DashboardNotes /> },

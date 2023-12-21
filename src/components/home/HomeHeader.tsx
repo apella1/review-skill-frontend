@@ -8,11 +8,11 @@ export default function HomeHeader() {
   return (
     <header className="h-screen py-8 flex">
       <Stack spacing={1} className="basis-1/2 pt-16">
-        <h1 className="text-[60px] leading-[44px]">ReviewSkill</h1>
-        <h2 className="text-[30px] leading-[44px]">
+        <h1 className="text-[50px] 2xl:text-[60px] leading-[44px]">ReviewSkill</h1>
+        <h2 className="text-[20px] 2xl:text-[30px] leading-[44px]">
           Spaced Repetition Tools To Enhance Your Career
         </h2>
-        <h2 className="text-[30px] leading-[44px]">
+        <h2 className="text-[20px] 2xl:text-[30px] leading-[44px]">
           Build Your Skills In a Science-Based Way
         </h2>
         <CustomButton
