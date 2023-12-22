@@ -9,7 +9,7 @@ export default function AuthLayout({
 }) {
   const location = useLocation();
   return (
-    <Stack className="h-screen lg:fixed">
+    <Stack className="h-screen xl:fixed">
       <nav className="flex justify-between items-center p-4 2xl:p-8">
         <Link to="/" className="text-[#035afc] font-semibold text-[26px]">
           RS
