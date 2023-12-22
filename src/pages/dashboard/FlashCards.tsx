@@ -1,8 +1,7 @@
 import { useState } from "react";
 import { CustomButton } from "../../components";
 import { DashboardLayout, ProtectedLayout } from "../../layouts";
-
-function handleCreateFlashcard() {}
+import { client } from "../../axios/axios";
 
 type FlashCard = {
   title: string;
@@ -10,7 +9,7 @@ type FlashCard = {
 };
 
 export default function FlashCards() {
-  const [data, setData] = useState<FlashCard>({
+  const [flashcardData, setFlashcardData] = useState<FlashCard>({
     title: "",
     body: "",
   });
@@ -21,8 +20,17 @@ export default function FlashCards() {
       | React.ChangeEvent<HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
-    setData((prev) => ({ ...prev, [name]: value }));
+    setFlashcardData((prev) => ({ ...prev, [name]: value }));
   };
+
+  async function handleCreateFlashcard() {
+    try {
+      const res = await client.post("flashcard", flashcardData);
+      console.log(res);
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
   return (
     <ProtectedLayout>
@@ -38,14 +46,14 @@ export default function FlashCards() {
               name="title"
               placeholder="Enter Card Title.."
               onChange={handleChange}
-              value={data.title}
+              value={flashcardData.title}
               className="w-fit px-4 py-2 border border-gray-200"
             />
             <textarea
               className="border-gray-200 border w-[80%] p-4 h-[200px]"
               name="body"
               placeholder="Enter Card Body"
-              value={data.body}
+              value={flashcardData.body}
               onChange={handleChange}
             />
             <CustomButton
