@@ -1,6 +1,6 @@
 import { InputProps } from "../types/types";
 
-export const inputs: InputProps[] = [
+export const dashboardSettingsInputs: InputProps[] = [
   {
     inputId: "firstName",
     type: "text",

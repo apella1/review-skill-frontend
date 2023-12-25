@@ -1,7 +1,7 @@
+import { useState } from "react";
 import { FcCamera } from "react-icons/fc";
 import { InputCard } from "..";
-import { inputs } from "../../constants/content";
-import { useState } from "react";
+import { dashboardSettingsInputs } from "../../constants/content";
 
 export default function DashboardMainContent() {
   const [profileImage, setProfileImage] = useState<string | null>(null);
@@ -37,13 +37,13 @@ export default function DashboardMainContent() {
             />
             {!profileImage && (
               <div className="bg-gray-600 w-full h-full flex items-center justify-center">
-                <FcCamera className="text-3xl"/>
+                <FcCamera className="text-3xl" />
               </div>
             )}
           </label>
         </div>
         <section className="flex flex-col space-y-4">
-          {inputs.map((input, index) => (
+          {dashboardSettingsInputs.map((input, index) => (
             <InputCard input={input} key={index} />
           ))}
         </section>

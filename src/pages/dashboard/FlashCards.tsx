@@ -23,10 +23,13 @@ export default function FlashCards() {
     setFlashcardData((prev) => ({ ...prev, [name]: value }));
   };
 
-  async function handleCreateFlashcard() {
+  async function handleCreateFlashcard(e: React.FormEvent<HTMLFormElement>) {
     try {
+      e.preventDefault();
       const res = await client.post("flashcard", flashcardData);
-      console.log(res);
+      if (res.status === 202) {
+        console.log(res);
+      }
     } catch (error) {
       console.error(error);
     }
