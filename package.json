@@ -32,6 +32,8 @@
     "autoprefixer": "^10.4.16",
     "commitizen": "^4.3.0",
     "eslint": "^8.53.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.4",
     "husky": "^9.0.6",
