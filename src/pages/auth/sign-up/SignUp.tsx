@@ -52,7 +52,11 @@ export default function SignUp() {
               <p>Sign Up With GitHub</p>
             </div>
           </Stack>
-          <form action="" className="flex flex-col space-y-4 w-full">
+          <form
+            action=""
+            className="flex flex-col space-y-4 w-full"
+            onSubmit={handleRegistration}
+          >
             <TextField
               required
               label="First Name"
@@ -101,7 +105,6 @@ export default function SignUp() {
                 title: "Sign Up",
                 bgColor: "bg-[#035afc]",
                 textColor: "text-white",
-                action: () => handleRegistration,
                 full: true,
                 type: "submit",
               }}
