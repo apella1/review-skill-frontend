@@ -23,7 +23,7 @@ export default function SignUp() {
   };
 
   const handleConfirmPasswordChange = (
-    e: React.ChangeEvent<HTMLInputElement>
+    e: React.ChangeEvent<HTMLInputElement>,
   ) => {
     const { value } = e.target;
     setConfirmPassword(value);
@@ -32,8 +32,7 @@ export default function SignUp() {
   const handleRegistration = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      const res = await client.post("/auth/sign-up", formData);
-      console.log(res);
+      await client.post("create_user", formData);
     } catch (error) {
       console.error(error);
     }
@@ -104,6 +103,7 @@ export default function SignUp() {
                 textColor: "text-white",
                 action: () => handleRegistration,
                 full: true,
+                type: "submit",
               }}
             />
           </form>

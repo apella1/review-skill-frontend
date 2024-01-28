@@ -20,6 +20,7 @@ export type ButtonProperties = {
   textColor: string;
   rounded?: boolean;
   full?: boolean;
+  type?: "button" | "submit" | "reset" | undefined;
 };
 
 export type SidebarLink = {
