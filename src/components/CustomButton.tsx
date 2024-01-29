@@ -1,9 +1,11 @@
 import { ButtonProperties } from "../types/types";
 
 export default function CustomButton({ button }: { button: ButtonProperties }) {
-  const { action, title, bgColor, textColor, rounded, full, type } = button;
+  const { action, title, bgColor, textColor, rounded, full, type, disabled } =
+    button;
   return (
     <button
+      disabled={disabled}
       type={type}
       onClick={action}
       className={`${bgColor} px-4 py-2 md:py-3 text-[14px] lg:text-[18px] leading-[17px] ${textColor} font-medium ${

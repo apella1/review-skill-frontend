@@ -21,6 +21,7 @@ export type ButtonProperties = {
   rounded?: boolean;
   full?: boolean;
   type?: "button" | "submit" | "reset" | undefined;
+  disabled?: boolean | undefined;
 };
 
 export type SidebarLink = {

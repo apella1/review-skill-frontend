@@ -2,7 +2,7 @@ import { Stack, TextField, Typography } from "@mui/material";
 import { useState } from "react";
 import { FaGithub } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { client } from "../../../axios/axios";
 import { CustomButton } from "../../../components";
 import { AuthLayout } from "../../../layouts";
@@ -13,6 +13,9 @@ type LoginData = {
 };
 export default function Login() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
   const [formData, setFormData] = useState<LoginData>({
     email: "",
     password: "",
@@ -24,12 +27,27 @@ export default function Login() {
 
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setLoading(true);
+    setError(null);
     try {
-      const res = await client.post("/auth/login", formData);
-      console.log(res);
-      setTimeout(() => navigate("/dashboard/summary"), 3000);
-    } catch (error) {
+      const res = await client.post("login", formData);
+      if (res.data && res.data.token) {
+        const token = res.data.token;
+        localStorage.setItem("token", token);
+        if (location.state?.from) {
+          navigate(location.state.from);
+        } else {
+          navigate("/dashboard/summary");
+        }
+      } else {
+        throw new Error("Invalid server response.");
+      }
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      setError(error.message);
       console.error(error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -47,7 +65,14 @@ export default function Login() {
               <p>Log In With GitHub</p>
             </div>
           </Stack>
-          <form action="" className="flex flex-col space-y-4 w-full">
+          <form
+            action=""
+            className="flex flex-col space-y-4 w-full"
+            onSubmit={handleLogin}
+          >
+            {error && (
+              <p className="text-red-700 text-base text-center">{error}</p>
+            )}
             <TextField
               label="Email Address"
               type="email"
@@ -67,8 +92,9 @@ export default function Login() {
                 title: "Login",
                 bgColor: "bg-[#035afc]",
                 textColor: "text-white",
-                action: () => handleLogin,
+                type: "submit",
                 full: true,
+                disabled: loading,
               }}
             />
           </form>
