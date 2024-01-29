@@ -10,6 +10,10 @@ import { UserData } from "../../../types/types";
 
 export default function SignUp() {
   const [confirmPassword, setConfirmPassword] = useState<string>("");
+  const [passwordError, setPasswordError] = useState(false);
+  const [successMessage, setSuccessMessage] = useState("");
+  const [serverError, setServerError] = useState<null | string>(null);
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState<UserData>({
     firstName: "",
     lastName: "",
@@ -31,10 +35,43 @@ export default function SignUp() {
 
   const handleRegistration = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setServerError(null);
+    setLoading(true);
     try {
-      await client.post("create_user", formData);
-    } catch (error) {
+      if (formData.password !== confirmPassword) {
+        setPasswordError(true);
+        return;
+      } else {
+        setPasswordError(false);
+        await client
+          .post("create_user", formData)
+          .then((response) => {
+            setFormData({
+              firstName: "",
+              lastName: "",
+              email: "",
+              password: "",
+            });
+            setConfirmPassword("");
+            setSuccessMessage("Signed up successfully!");
+            console.log(response);
+          })
+          .catch((error) =>
+            setServerError(
+              error.response?.data?.error ||
+                "An unexpected error occurred. Please try again.",
+            ),
+          );
+      }
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      setServerError(
+        error.response?.data?.error ||
+          "An unexpected error occurred. Please try again.",
+      );
       console.error(error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -57,6 +94,16 @@ export default function SignUp() {
             className="flex flex-col space-y-4 w-full"
             onSubmit={handleRegistration}
           >
+            {successMessage && (
+              <p className="text-center text-base text-green-700">
+                {successMessage}
+              </p>
+            )}
+            {serverError && (
+              <Typography color="error" className="text-center">
+                {serverError}
+              </Typography>
+            )}
             <TextField
               required
               label="First Name"
@@ -87,6 +134,8 @@ export default function SignUp() {
               type="password"
               name="password"
               value={formData.password}
+              error={passwordError}
+              helperText={passwordError ? "Passwords do not match!" : ""}
               onChange={handleChange}
             />
             <TextField
@@ -95,6 +144,8 @@ export default function SignUp() {
               type="password"
               name="passwordConfirm"
               value={confirmPassword}
+              error={passwordError}
+              helperText={passwordError ? "Passwords do not match!" : ""}
               onChange={handleConfirmPasswordChange}
             />
             <Typography className="self-center">
@@ -107,6 +158,7 @@ export default function SignUp() {
                 textColor: "text-white",
                 full: true,
                 type: "submit",
+                disabled: loading,
               }}
             />
           </form>
