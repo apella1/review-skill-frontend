@@ -45,7 +45,7 @@ export default function SignUp() {
         setPasswordError(false);
         await client
           .post("create_user", formData)
-          .then((response) => {
+          .then(() => {
             setFormData({
               firstName: "",
               lastName: "",
@@ -54,7 +54,7 @@ export default function SignUp() {
             });
             setConfirmPassword("");
             setSuccessMessage("Signed up successfully!");
-            console.log(response);
+            setTimeout(() => setSuccessMessage(""), 3000);
           })
           .catch((error) =>
             setServerError(
