@@ -15,7 +15,7 @@ export default function Login() {
   const navigate = useNavigate();
   const location = useLocation();
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<string | null>("");
   const [formData, setFormData] = useState<LoginData>({
     email: "",
     password: "",
@@ -30,21 +30,30 @@ export default function Login() {
     setLoading(true);
     setError(null);
     try {
-      const res = await client.post("login", formData);
-      if (res.data && res.data.token) {
-        const token = res.data.token;
-        localStorage.setItem("token", token);
-        if (location.state?.from) {
-          navigate(location.state.from);
+      try {
+        const res = await client.post("login", formData);
+        if (res.data && res.data.token) {
+          const token = res.data.token;
+          localStorage.setItem("token", token);
+          if (location.state?.from) {
+            navigate(location.state.from);
+          } else {
+            navigate("/dashboard/summary");
+          }
         } else {
-          navigate("/dashboard/summary");
+          throw new Error("Invalid server response.");
         }
-      } else {
-        throw new Error("Invalid server response.");
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      } catch (error: any) {
+        if (error.response && error.response.data.error) {
+          setError(error.response.data.error);
+        } else {
+          setError(error.message);
+        }
       }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
-      setError(error.message);
+      setError("An unexpected error occurred. Please try again.");
       console.error(error);
     } finally {
       setLoading(false);
@@ -74,6 +83,7 @@ export default function Login() {
               <p className="text-red-700 text-base text-center">{error}</p>
             )}
             <TextField
+              required
               label="Email Address"
               type="email"
               name="email"
@@ -81,6 +91,7 @@ export default function Login() {
               onChange={handleChange}
             />
             <TextField
+              required
               label="Password"
               type="password"
               name="password"
