@@ -38,4 +38,15 @@ export type InputProps = {
   name: string;
   validationError?: string;
   handleChange?: (e: ChangeEvent<HTMLInputElement>) => void;
+  disabled?: boolean;
+};
+
+export type DBUSer = {
+  id: string;
+  created_at: string;
+  updated_at: string;
+  first_name: string;
+  last_name: string;
+  email: string;
+  password: string;
 };
