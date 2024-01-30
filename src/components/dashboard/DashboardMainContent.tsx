@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FcCamera } from "react-icons/fc";
 import { InputCard } from "..";
 import { DBUSer, InputProps } from "../../types/types";
@@ -13,8 +13,11 @@ export default function DashboardMainContent() {
     last_name: "",
     email: "",
     password: "",
+    profile_image: null,
   });
-  const [profileImage, setProfileImage] = useState<string | null>(null);
+  const [profileImage, setProfileImage] = useState<string | null | File>(
+    userData.profile_image,
+  );
 
   useEffect(() => {
     const jwtToken = localStorage.getItem("token");
@@ -63,6 +66,34 @@ export default function DashboardMainContent() {
     },
   ];
 
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const jwtToken = localStorage.getItem("token");
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      // form data instance to hold the file
+      const formData = new FormData();
+      formData.append("profile_image", file);
+      try {
+        const res = await client.put(
+          `users/${userData.id}/profile_image`,
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+              Authorization: `Bearer ${jwtToken}`,
+            },
+          },
+        );
+        setProfileImage(res.data);
+        console.log(res.data);
+      } catch (err) {
+        console.error(err);
+      }
+      reader.readAsDataURL(file);
+    }
+  };
+
   return (
     <form className="flex flex-col space-y-4 border border-gray-200 p-8">
       <section className="flex flex-col space-y-12">
@@ -79,19 +110,7 @@ export default function DashboardMainContent() {
               type="file"
               id="profile-image"
               className="hidden"
-              onChange={(e) => {
-                const file = e.target.files?.[0];
-                if (file) {
-                  const reader = new FileReader();
-                  reader.onload = (event) => {
-                    const result = event.target?.result;
-                    if (result) {
-                      setProfileImage(result.toString());
-                    }
-                  };
-                  reader.readAsDataURL(file);
-                }
-              }}
+              onChange={handleImageUpload}
             />
             {!profileImage && (
               <div className="bg-gray-600 w-full h-full flex items-center justify-center">
