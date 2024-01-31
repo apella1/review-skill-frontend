@@ -13,11 +13,11 @@ export default function Dashboard() {
   const [duration, setDuration] = useState("");
   const handleDurationChange = (e: SelectChangeEvent) => {
     const { value } = e.target;
-    setDuration(value as string);
+    setDuration(value);
   };
   const handleTimeChange = (e: SelectChangeEvent) => {
     const { value } = e.target;
-    setTime(value as string);
+    setTime(value);
   };
   return (
     <ProtectedLayout>
@@ -47,7 +47,7 @@ export default function Dashboard() {
                 <InputLabel id="duration">Duration</InputLabel>
                 <Select
                   id="duration"
-                  onChange={() => handleDurationChange}
+                  onChange={handleDurationChange}
                   label="Duration"
                   value={duration}
                 >
@@ -61,7 +61,7 @@ export default function Dashboard() {
                 <InputLabel id="time">Time</InputLabel>
                 <Select
                   id="time"
-                  onChange={() => handleTimeChange}
+                  onChange={handleTimeChange}
                   label="Time"
                   value={time}
                 >
