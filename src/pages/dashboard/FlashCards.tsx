@@ -3,30 +3,42 @@ import { CustomButton } from "../../components";
 import { DashboardLayout, ProtectedLayout } from "../../layouts";
 import { client } from "../../axios/axios";
 
-type FlashCard = {
+interface FlashCard {
   title: string;
   body: string;
-};
+  tags: string[];
+}
 
 export default function FlashCards() {
   const [flashcardData, setFlashcardData] = useState<FlashCard>({
     title: "",
     body: "",
+    tags: [],
   });
 
   const handleChange = (
     e:
       | React.ChangeEvent<HTMLInputElement>
-      | React.ChangeEvent<HTMLTextAreaElement>
+      | React.ChangeEvent<HTMLTextAreaElement>,
   ) => {
     const { name, value } = e.target;
-    setFlashcardData((prev) => ({ ...prev, [name]: value }));
+    if (name === "tags") {
+      const tags = value.split(",").map((tag) => tag.trim());
+      setFlashcardData((prevData) => ({ ...prevData, tags }));
+    } else {
+      setFlashcardData((prev) => ({ ...prev, [name]: value }));
+    }
   };
 
   async function handleCreateFlashcard(e: React.FormEvent<HTMLFormElement>) {
+    const jwtToken = localStorage.getItem("token");
     try {
       e.preventDefault();
-      const res = await client.post("flashcard", flashcardData);
+      const res = await client.post("create_flashcard", flashcardData, {
+        headers: {
+          Authorization: `Bearer ${jwtToken}`,
+        },
+      });
       if (res.status === 202) {
         console.log(res);
       }
@@ -39,10 +51,12 @@ export default function FlashCards() {
     <ProtectedLayout>
       <DashboardLayout>
         <section>
-          <p>Available Flashcards</p>
+          <p className="font-semibold text-2xl">Available Flashcards</p>
         </section>
         <section>
-          <h2 className="pb-4">Create a New Flashcard</h2>
+          <h2 className="pb-4 font-semibold text-2xl">
+            Create a New Flashcard
+          </h2>
           <form action="" className="flex flex-col space-y-3">
             <input
               type="text"
@@ -50,7 +64,7 @@ export default function FlashCards() {
               placeholder="Enter Card Title.."
               onChange={handleChange}
               value={flashcardData.title}
-              className="w-fit px-4 py-2 border border-gray-200"
+              className="w-[80%] px-4 py-2 border border-gray-200"
             />
             <textarea
               className="border-gray-200 border w-[80%] p-4 h-[200px]"
@@ -58,6 +72,14 @@ export default function FlashCards() {
               placeholder="Enter Card Body"
               value={flashcardData.body}
               onChange={handleChange}
+            />
+            <input
+              type="text"
+              name="tags"
+              placeholder="Enter tags separated by a comma..."
+              value={flashcardData.tags.join(", ")}
+              onChange={handleChange}
+              className="w-[80%] px-4 py-2 border border-gray-200"
             />
             <CustomButton
               button={{
