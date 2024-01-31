@@ -4,3 +4,4 @@ export { default as CustomButton } from "./CustomButton";
 export { default as InputCard } from "./InputCard";
 export { default as HomeHeader } from "./home/HomeHeader";
 export { default as DashboardMainContent } from "./dashboard/DashboardMainContent";
+export { default as FlashcardSummary } from "./FlashcardSummary";
