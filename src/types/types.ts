@@ -1,19 +1,19 @@
 import { ChangeEvent } from "react";
 
-export type MenuItem = {
+export interface MenuItem {
   title: string;
   link: string;
-};
+}
 
-export type UserData = {
+export interface UserData {
   firstName: string;
   lastName: string;
   email: string;
   password: string;
-};
+}
 
 // named properties to avoid a clash with mui's ButtonProps
-export type ButtonProperties = {
+export interface ButtonProperties {
   action?: () => void;
   title: string;
   bgColor: string;
@@ -22,14 +22,14 @@ export type ButtonProperties = {
   full?: boolean;
   type?: "button" | "submit" | "reset" | undefined;
   disabled?: boolean | undefined;
-};
+}
 
-export type SidebarLink = {
+export interface SidebarLink {
   title: string;
   link: string;
-};
+}
 
-export type InputProps = {
+export interface InputProps {
   inputId: string;
   type: string;
   placeholder: string;
@@ -39,9 +39,9 @@ export type InputProps = {
   validationError?: string;
   handleChange?: (e: ChangeEvent<HTMLInputElement>) => void;
   disabled?: boolean;
-};
+}
 
-export type DBUSer = {
+export interface DBUSer {
   id: string;
   created_at: string;
   updated_at: string;
@@ -50,4 +50,8 @@ export type DBUSer = {
   email: string;
   password: string;
   profile_image: File | null;
-};
+}
+export interface CardSummary {
+  title: string;
+  value: number;
+}

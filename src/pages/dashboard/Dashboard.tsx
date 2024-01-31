@@ -5,8 +5,10 @@ import {
   Select,
   SelectChangeEvent,
 } from "@mui/material";
-import { DashboardLayout, ProtectedLayout } from "../../layouts";
 import { useState } from "react";
+import { DashboardLayout, ProtectedLayout } from "../../layouts";
+import { CardSummary } from "../../types/types";
+import { FlashcardSummary } from "../../components";
 
 export default function Dashboard() {
   const [time, setTime] = useState("");
@@ -19,6 +21,44 @@ export default function Dashboard() {
     const { value } = e.target;
     setTime(value);
   };
+
+  const todayCardsSummary: CardSummary[] = [
+    {
+      title: "Due Cards",
+      value: 0,
+    },
+    {
+      title: "Cards Learned",
+      value: 0,
+    },
+    {
+      title: "Total Reviews",
+      value: 0,
+    },
+    {
+      title: "Retention Rate",
+      value: 0,
+    },
+  ];
+  const dynamicCardsSummary: CardSummary[] = [
+    {
+      title: "Cards Learned",
+      value: 0,
+    },
+    {
+      title: "Mew Cards Learned",
+      value: 0,
+    },
+    {
+      title: "Total Reviews",
+      value: 0,
+    },
+    {
+      title: "Retention Rate",
+      value: 0,
+    },
+  ];
+
   return (
     <ProtectedLayout>
       <DashboardLayout>
@@ -26,22 +66,9 @@ export default function Dashboard() {
           <section className="flex flex-col space-y-2">
             <h2 className="font-medium">Today</h2>
             <div className="grid grid-cols-3 gap-4">
-              <div className="p-4 flex flex-col space-y-2 border border-gray-200">
-                <p>Due Cards</p>
-                <p className="text-[#035afc]">0</p>
-              </div>
-              <div className="p-4 flex flex-col space-y-2 border border-gray-200">
-                <p>Cards Learned</p>
-                <p className="text-[#035afc]">0</p>
-              </div>
-              <div className="p-4 flex flex-col space-y-2 border border-gray-200">
-                <p>Retention Rate</p>
-                <p className="text-[#035afc]">0%</p>
-              </div>
-              <div className="p-4 flex flex-col space-y-2 border border-gray-200">
-                <p>Total Reviews</p>
-                <p className="text-[#035afc]">0</p>
-              </div>
+              {todayCardsSummary.map((card, index) => (
+                <FlashcardSummary summary={card} key={index} />
+              ))}
             </div>
           </section>
           <section className="flex flex-col space-y-4">
@@ -75,22 +102,9 @@ export default function Dashboard() {
               </FormControl>
             </div>
             <div className="grid grid-cols-4 gap-4">
-              <div className="p-4 flex flex-col space-y-2 border border-gray-200">
-                <p>Cards Learned</p>
-                <p className="text-[#035afc]">0</p>
-              </div>
-              <div className="p-4 flex flex-col space-y-2 border border-gray-200">
-                <p>New Cards Learned</p>
-                <p className="text-[#035afc]">0</p>
-              </div>
-              <div className="p-4 flex flex-col space-y-2 border border-gray-200">
-                <p>Total Reviews</p>
-                <p className="text-[#035afc]">0</p>
-              </div>
-              <div className="p-4 flex flex-col space-y-2 border border-gray-200">
-                <p>Retention Rate</p>
-                <p className="text-[#035afc]">0%</p>
-              </div>
+              {dynamicCardsSummary.map((card, index) => (
+                <FlashcardSummary summary={card} key={index} />
+              ))}
             </div>
           </section>
         </section>
