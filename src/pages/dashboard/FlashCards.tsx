@@ -11,16 +11,22 @@ interface FlashCard {
 }
 
 export default function FlashCards() {
+  const [successDeleteMsg, setSuccessDeleteMsg] = useState("");
   const [availableFlashcards, setAvailableFlashcards] = useState<DBFlashcard[]>(
     [],
   );
-  const [successMsg, setSuccessMSg] = useState("");
+  const [successCreateMsg, setSuccessCreateMsg] = useState("");
   const [loading, setLoading] = useState(false);
   const [flashcardData, setFlashcardData] = useState<FlashCard>({
     title: "",
     body: "",
     tags: [],
   });
+  const [search, setSearch] = useState("");
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
+    setSearch(value);
+  };
 
   const handleChange = (
     e:
@@ -35,7 +41,38 @@ export default function FlashCards() {
       setFlashcardData((prev) => ({ ...prev, [name]: value }));
     }
   };
-
+  const deleteFlashcard = useCallback(async function (id: string) {
+    const jwtToken = localStorage.getItem("token");
+    try {
+      const res = await client.delete(`flashcards/${id}`, {
+        headers: {
+          Authorization: `Bearer ${jwtToken}`,
+        },
+      });
+      if (res.status === 200) {
+        setSuccessDeleteMsg("Flashcard deleted successfully!");
+        setTimeout(() => {
+          setSuccessDeleteMsg("");
+        }, 2000);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }, []);
+  const handleFlashcardDelete = useCallback(
+    (id: string) => {
+      deleteFlashcard(id)
+        .then(() => {
+          setAvailableFlashcards((prevCards) =>
+            prevCards.filter((card) => card.id !== id),
+          );
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    },
+    [deleteFlashcard],
+  );
   const createFlashcard = useCallback(
     async function () {
       setLoading(true);
@@ -47,11 +84,11 @@ export default function FlashCards() {
           },
         });
         if (res.status === 201) {
-          setSuccessMSg("Card created successfully!");
+          setSuccessCreateMsg("Card created successfully!");
           setLoading(false);
           setTimeout(() => {
-            setSuccessMSg("");
-          }, 5000);
+            setSuccessCreateMsg("");
+          }, 2000);
         }
         setFlashcardData({
           title: "",
@@ -128,7 +165,9 @@ export default function FlashCards() {
               onChange={handleChange}
               className="w-[80%] px-4 py-2 border border-gray-200"
             />
-            {successMsg && <p className="text-green-800">{successMsg}</p>}
+            {successCreateMsg && (
+              <p className="text-green-800">{successCreateMsg}</p>
+            )}
             <CustomButton
               button={{
                 title: "Create Card",
@@ -144,9 +183,27 @@ export default function FlashCards() {
         {availableFlashcards.length > 0 && (
           <section className="flex flex-col space-y-4">
             <p className="font-semibold text-2xl">Available Flashcards</p>
+            <div>
+              <input
+                type="search"
+                placeholder="Search Flashcards..."
+                value={search}
+                onChange={handleSearchChange}
+                className="w-fit border border-[#D9D9D9] py-2 px-4 text-[#000000] text-[14px] leading-[20px] rounded-[8px] placeholder:text-[#7C7C8D] placeholder:text-[14px] placeholder:leading-[20px]"
+              />
+            </div>
+            {successDeleteMsg && (
+              <p className="text-green-800 text-base">{successDeleteMsg}</p>
+            )}
             <div className="grid grid-cols-4 gap-8">
               {availableFlashcards.map((flashcard, index) => (
-                <FlashcardView flashcard={flashcard} key={index} />
+                <FlashcardView
+                  flashcard={flashcard}
+                  key={index}
+                  handleFlashcardDelete={() => {
+                    handleFlashcardDelete(flashcard.id);
+                  }}
+                />
               ))}
             </div>
           </section>
