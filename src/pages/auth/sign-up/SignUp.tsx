@@ -19,8 +19,8 @@ export default function SignUp() {
   const [serverError, setServerError] = useState<null | string>(null);
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState<UserData>({
-    firstName: "",
-    lastName: "",
+    first_name: "",
+    last_name: "",
     email: "",
     password: "",
   });
@@ -50,8 +50,8 @@ export default function SignUp() {
           .post("create_user", formData)
           .then(() => {
             setFormData({
-              firstName: "",
-              lastName: "",
+              first_name: "",
+              last_name: "",
               email: "",
               password: "",
             });
@@ -126,16 +126,16 @@ export default function SignUp() {
               required
               label="First Name"
               type="text"
-              name="firstName"
-              value={formData.firstName}
+              name="first_name"
+              value={formData.first_name}
               onChange={handleChange}
             />
             <TextField
               required
               label="Last Name"
               type="text"
-              name="lastName"
-              value={formData.lastName}
+              name="last_name"
+              value={formData.last_name}
               onChange={handleChange}
             />
             <TextField
