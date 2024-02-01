@@ -10,6 +10,8 @@ interface FlashCard {
 }
 
 export default function FlashCards() {
+  const [successMsg, setSuccessMSg] = useState("");
+  const [loading, setLoading] = useState(false);
   const [flashcardData, setFlashcardData] = useState<FlashCard>({
     title: "",
     body: "",
@@ -30,21 +32,36 @@ export default function FlashCards() {
     }
   };
 
-  async function handleCreateFlashcard(e: React.FormEvent<HTMLFormElement>) {
+  async function createFlashcard() {
+    setLoading(true);
     const jwtToken = localStorage.getItem("token");
     try {
-      e.preventDefault();
       const res = await client.post("create_flashcard", flashcardData, {
         headers: {
           Authorization: `Bearer ${jwtToken}`,
         },
       });
-      if (res.status === 202) {
-        console.log(res);
+      if (res.status === 201) {
+        setSuccessMSg("Card created successfully!");
+        setLoading(false);
+        setTimeout(() => {
+          setSuccessMSg("");
+        }, 5000);
       }
+      setFlashcardData({
+        title: "",
+        body: "",
+        tags: [],
+      });
     } catch (error) {
       console.error(error);
     }
+  }
+  function handleCreateFlashcard(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    createFlashcard().catch((err) => {
+      console.error(err);
+    });
   }
 
   return (
@@ -57,7 +74,11 @@ export default function FlashCards() {
           <h2 className="pb-4 font-semibold text-2xl">
             Create a New Flashcard
           </h2>
-          <form action="" className="flex flex-col space-y-3">
+          <form
+            action=""
+            className="flex flex-col space-y-3"
+            onSubmit={handleCreateFlashcard}
+          >
             <input
               type="text"
               name="title"
@@ -81,13 +102,15 @@ export default function FlashCards() {
               onChange={handleChange}
               className="w-[80%] px-4 py-2 border border-gray-200"
             />
+            {successMsg && <p className="text-green-800">{successMsg}</p>}
             <CustomButton
               button={{
                 title: "Create Card",
                 bgColor: "bg-[#035afc]",
                 textColor: "text-white",
-                action: () => handleCreateFlashcard,
+                type: "submit",
                 rounded: true,
+                disabled: loading ? true : false,
               }}
             />
           </form>

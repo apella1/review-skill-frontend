@@ -1,3 +1,5 @@
+const { version } = require("react");
+
 module.exports = {
   root: true,
   env: { browser: true, es2020: true },
@@ -18,11 +20,16 @@ module.exports = {
     project: ["./tsconfig.json", "./tsconfig.node.json"],
     tsconfigRootDir: __dirname,
   },
-  plugins: ["react-refresh"],
+  plugins: ["react-refresh", "react"],
   rules: {
     "react-refresh/only-export-components": [
       "warn",
       { allowConstantExport: true },
     ],
+  },
+  settings: {
+    react: {
+      version: "18.2.0",
+    },
   },
 };

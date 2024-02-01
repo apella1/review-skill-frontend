@@ -7,7 +7,11 @@ import { client } from "../../../axios/axios";
 import { CustomButton } from "../../../components";
 import { AuthLayout } from "../../../layouts";
 import { UserData } from "../../../types/types";
+import { AxiosError, isAxiosError } from "axios";
 
+interface ErrorResponse {
+  error: string;
+}
 export default function SignUp() {
   const [confirmPassword, setConfirmPassword] = useState<string>("");
   const [passwordError, setPasswordError] = useState(false);
@@ -33,8 +37,7 @@ export default function SignUp() {
     setConfirmPassword(value);
   };
 
-  const handleRegistration = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  async function registerUser() {
     setServerError(null);
     setLoading(true);
     try {
@@ -54,25 +57,40 @@ export default function SignUp() {
             });
             setConfirmPassword("");
             setSuccessMessage("Signed up successfully!");
-            setTimeout(() => setSuccessMessage(""), 3000);
+            setTimeout(() => {
+              setSuccessMessage("");
+            }, 3000);
           })
-          .catch((error) =>
+          .catch((error: AxiosError<ErrorResponse>) => {
+            const errMsg = error.response?.data.error;
             setServerError(
-              error.response?.data?.error ||
-                "An unexpected error occurred. Please try again.",
-            ),
-          );
+              typeof errMsg === "string"
+                ? errMsg
+                : "An unexpected error occurred. Please try again.",
+            );
+          });
       }
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (error: any) {
-      setServerError(
-        error.response?.data?.error ||
-          "An unexpected error occurred. Please try again.",
-      );
+    } catch (error: unknown) {
+      if (isAxiosError(error)) {
+        const errMsg = (error as AxiosError<ErrorResponse>).response?.data
+          .error;
+        setServerError(
+          typeof errMsg === "string"
+            ? errMsg
+            : "An unexpected error occurred. Please try again.",
+        );
+      }
       console.error(error);
     } finally {
       setLoading(false);
     }
+  }
+
+  const handleRegistration = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    registerUser().catch((err) => {
+      console.error(err);
+    });
   };
 
   return (
