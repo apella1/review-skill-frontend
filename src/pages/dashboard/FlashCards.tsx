@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { client } from "../../axios/axios";
 import { CustomButton, FlashcardView } from "../../components";
 import { DashboardLayout, ProtectedLayout } from "../../layouts";
@@ -36,37 +36,44 @@ export default function FlashCards() {
     }
   };
 
-  async function createFlashcard() {
-    setLoading(true);
-    const jwtToken = localStorage.getItem("token");
-    try {
-      const res = await client.post("create_flashcard", flashcardData, {
-        headers: {
-          Authorization: `Bearer ${jwtToken}`,
-        },
-      });
-      if (res.status === 201) {
-        setSuccessMSg("Card created successfully!");
-        setLoading(false);
-        setTimeout(() => {
-          setSuccessMSg("");
-        }, 5000);
+  const createFlashcard = useCallback(
+    async function () {
+      setLoading(true);
+      const jwtToken = localStorage.getItem("token");
+      try {
+        const res = await client.post("create_flashcard", flashcardData, {
+          headers: {
+            Authorization: `Bearer ${jwtToken}`,
+          },
+        });
+        if (res.status === 201) {
+          setSuccessMSg("Card created successfully!");
+          setLoading(false);
+          setTimeout(() => {
+            setSuccessMSg("");
+          }, 5000);
+        }
+        setFlashcardData({
+          title: "",
+          body: "",
+          tags: [],
+        });
+      } catch (error) {
+        console.error(error);
       }
-      setFlashcardData({
-        title: "",
-        body: "",
-        tags: [],
+    },
+    [flashcardData],
+  );
+
+  const handleCreateFlashcard = useCallback(
+    (e: React.FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
+      createFlashcard().catch((err) => {
+        console.error(err);
       });
-    } catch (error) {
-      console.error(error);
-    }
-  }
-  function handleCreateFlashcard(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    createFlashcard().catch((err) => {
-      console.error(err);
-    });
-  }
+    },
+    [createFlashcard],
+  );
 
   useEffect(() => {
     const jwtToken = localStorage.getItem("token");
@@ -81,7 +88,7 @@ export default function FlashCards() {
     fetchFlashcards().catch((err) => {
       console.error(err);
     });
-  }, []);
+  }, [handleCreateFlashcard]);
 
   return (
     <ProtectedLayout>
