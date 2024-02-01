@@ -103,6 +103,7 @@ export default function FlashCards() {
             onSubmit={handleCreateFlashcard}
           >
             <input
+              required
               type="text"
               name="title"
               placeholder="Enter Card Title.."
@@ -111,6 +112,7 @@ export default function FlashCards() {
               className="w-[80%] px-4 py-2 border border-gray-200"
             />
             <textarea
+              required
               className="border-gray-200 border w-[80%] p-4 h-[200px]"
               name="body"
               placeholder="Enter Card Body"
@@ -118,6 +120,7 @@ export default function FlashCards() {
               onChange={handleChange}
             />
             <input
+              required
               type="text"
               name="tags"
               placeholder="Enter tags separated by a comma..."
