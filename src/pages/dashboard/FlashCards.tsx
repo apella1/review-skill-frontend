@@ -1,7 +1,8 @@
-import { useState } from "react";
-import { CustomButton } from "../../components";
-import { DashboardLayout, ProtectedLayout } from "../../layouts";
+import { useEffect, useState } from "react";
 import { client } from "../../axios/axios";
+import { CustomButton, FlashcardView } from "../../components";
+import { DashboardLayout, ProtectedLayout } from "../../layouts";
+import { DBFlashcard } from "../../types/flashcards";
 
 interface FlashCard {
   title: string;
@@ -10,6 +11,9 @@ interface FlashCard {
 }
 
 export default function FlashCards() {
+  const [availableFlashcards, setAvailableFlashcards] = useState<DBFlashcard[]>(
+    [],
+  );
   const [successMsg, setSuccessMSg] = useState("");
   const [loading, setLoading] = useState(false);
   const [flashcardData, setFlashcardData] = useState<FlashCard>({
@@ -64,12 +68,24 @@ export default function FlashCards() {
     });
   }
 
+  useEffect(() => {
+    const jwtToken = localStorage.getItem("token");
+    async function fetchFlashcards() {
+      const res = await client.get("flashcards", {
+        headers: {
+          Authorization: `Bearer ${jwtToken}`,
+        },
+      });
+      setAvailableFlashcards(res.data as DBFlashcard[]);
+    }
+    fetchFlashcards().catch((err) => {
+      console.error(err);
+    });
+  }, []);
+
   return (
     <ProtectedLayout>
       <DashboardLayout>
-        <section>
-          <p className="font-semibold text-2xl">Available Flashcards</p>
-        </section>
         <section>
           <h2 className="pb-4 font-semibold text-2xl">
             Create a New Flashcard
@@ -115,6 +131,16 @@ export default function FlashCards() {
             />
           </form>
         </section>
+        {availableFlashcards.length > 0 && (
+          <section className="flex flex-col space-y-4">
+            <p className="font-semibold text-2xl">Available Flashcards</p>
+            <div className="grid grid-cols-4 gap-8">
+              {availableFlashcards.map((flashcard, index) => (
+                <FlashcardView flashcard={flashcard} key={index} />
+              ))}
+            </div>
+          </section>
+        )}
       </DashboardLayout>
     </ProtectedLayout>
   );
