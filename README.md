@@ -40,6 +40,8 @@
 ### Pre-commit Hooks
 
 - Husky
+- Lint Staged
+- Commitizen
 
 ### Continuous Integration and Deployment(CI/CD)
 
