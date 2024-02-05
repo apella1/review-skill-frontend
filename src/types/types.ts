@@ -41,7 +41,7 @@ export interface InputProps {
   disabled?: boolean;
 }
 
-export interface DBUSer {
+export interface DBUser {
   id: string;
   created_at: string;
   updated_at: string;

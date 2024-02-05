@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { FcCamera } from "react-icons/fc";
 import { InputCard } from "..";
-import { DBUSer, InputProps } from "../../types/types";
 import { client } from "../../axios/axios";
+import { DBUser, InputProps } from "../../types/types";
 
 export default function DashboardMainContent() {
-  const [userData, setUserData] = useState<DBUSer>({
+  const [userData, setUserData] = useState<DBUser>({
     id: "",
     created_at: "",
     updated_at: "",
@@ -15,9 +15,6 @@ export default function DashboardMainContent() {
     password: "",
     profile_image: null,
   });
-  const [profileImage, setProfileImage] = useState<string | null | File>(
-    userData.profile_image,
-  );
 
   useEffect(() => {
     const jwtToken = localStorage.getItem("token");
@@ -28,13 +25,15 @@ export default function DashboardMainContent() {
             Authorization: `Bearer ${jwtToken}`,
           },
         });
-        const updatedData = res.data;
+        const updatedData = res.data as DBUser;
         setUserData(updatedData);
       } catch (error) {
         console.error(error);
       }
     }
-    fetchUser();
+    fetchUser().catch((err) => {
+      console.error(err);
+    });
   }, []);
 
   const userInformation: InputProps[] = [
@@ -66,7 +65,7 @@ export default function DashboardMainContent() {
     },
   ];
 
-  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const uploadImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const jwtToken = localStorage.getItem("token");
     const file = e.target.files?.[0];
     if (file) {
@@ -85,7 +84,6 @@ export default function DashboardMainContent() {
             },
           },
         );
-        setProfileImage(res.data);
         console.log(res.data);
       } catch (err) {
         console.error(err);
@@ -94,13 +92,18 @@ export default function DashboardMainContent() {
     }
   };
 
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    uploadImage(e).catch((err) => {
+      console.error(err);
+    });
+  };
+
   return (
     <form className="flex flex-col space-y-4 border border-gray-200 p-8">
       <section className="flex flex-col space-y-12">
         <div
           className="p-12 bg-[#f6f6f6] rounded-[80px] self-center"
           style={{
-            backgroundImage: profileImage ? `url(${profileImage})` : "none",
             backgroundSize: "cover",
             backgroundPosition: "center",
           }}
@@ -112,11 +115,9 @@ export default function DashboardMainContent() {
               className="hidden"
               onChange={handleImageUpload}
             />
-            {!profileImage && (
-              <div className="bg-gray-600 w-full h-full flex items-center justify-center">
-                <FcCamera className="text-3xl" />
-              </div>
-            )}
+            <div className="bg-gray-600 w-full h-full flex items-center justify-center">
+              <FcCamera className="text-3xl" />
+            </div>
           </label>
         </div>
         <section className="flex flex-col space-y-4">
