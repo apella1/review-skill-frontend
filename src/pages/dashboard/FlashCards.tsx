@@ -11,6 +11,7 @@ interface FlashCard {
 }
 
 export default function FlashCards() {
+  const [dataPosted, setDataPosted] = useState(false);
   const [successDeleteMsg, setSuccessDeleteMsg] = useState("");
   const [availableFlashcards, setAvailableFlashcards] = useState<DBFlashcard[]>(
     [],
@@ -84,6 +85,7 @@ export default function FlashCards() {
           },
         });
         if (res.status === 201) {
+          setDataPosted(true);
           setSuccessCreateMsg("Card created successfully!");
           setLoading(false);
           setTimeout(() => {
@@ -125,7 +127,7 @@ export default function FlashCards() {
     fetchFlashcards().catch((err) => {
       console.error(err);
     });
-  }, [handleCreateFlashcard]);
+  }, [dataPosted]);
 
   return (
     <ProtectedLayout>
