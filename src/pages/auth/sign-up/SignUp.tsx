@@ -1,7 +1,5 @@
 import { Stack, TextField, Typography } from "@mui/material";
 import { useState } from "react";
-import { FcGoogle } from "react-icons/fc";
-import { FaGithub } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { client } from "../../../axios/axios";
 import { CustomButton } from "../../../components";
@@ -97,7 +95,7 @@ export default function SignUp() {
     <AuthLayout>
       <section className="py-16 px-8 md:px-16 2xl:px-28">
         <Stack spacing={4}>
-          <Stack spacing={2} className="">
+          {/* <Stack spacing={2} className="">
             <div className="w-full py-3 flex items-center space-x-6 justify-center border border-gray-200">
               <FcGoogle className="text-2xl" />
               <p>Sign Up With Google</p>
@@ -106,7 +104,7 @@ export default function SignUp() {
               <FaGithub className="text-2xl" />
               <p>Sign Up With GitHub</p>
             </div>
-          </Stack>
+          </Stack> */}
           <form
             action=""
             className="flex flex-col space-y-4 w-full"

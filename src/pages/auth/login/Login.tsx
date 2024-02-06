@@ -1,16 +1,27 @@
 import { Stack, TextField, Typography } from "@mui/material";
+import { AxiosError, AxiosResponse } from "axios";
 import { useState } from "react";
-import { FaGithub } from "react-icons/fa";
-import { FcGoogle } from "react-icons/fc";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { client } from "../../../axios/axios";
 import { CustomButton } from "../../../components";
 import { AuthLayout } from "../../../layouts";
 
-type LoginData = {
+interface LoginData {
   email: string;
   password: string;
-};
+}
+
+interface ErrorResponse {
+  error: string;
+}
+
+interface LoginResponse {
+  token: string;
+}
+
+interface LocationState {
+  from: string;
+}
 export default function Login() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -25,34 +36,35 @@ export default function Login() {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const loginUser = async () => {
     setLoading(true);
     setError(null);
     try {
-      try {
-        const res = await client.post("login", formData);
-        if (res.data && res.data.token) {
-          const token = res.data.token;
-          localStorage.setItem("token", token);
-          if (location.state?.from) {
-            navigate(location.state.from);
+      await client
+        .post("login", formData)
+        .then((res: AxiosResponse<LoginResponse>) => {
+          if (res.status === 200) {
+            const token = res.data.token;
+            localStorage.setItem("token", token);
+            if (location.state && "from" in location.state) {
+              const state = location.state as LocationState;
+              navigate(state.from);
+            } else {
+              navigate("/dashboard/summary");
+            }
           } else {
-            navigate("/dashboard/summary");
+            throw new Error("Invalid server response.");
           }
-        } else {
-          throw new Error("Invalid server response.");
-        }
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      } catch (error: any) {
-        if (error.response && error.response.data.error) {
-          setError(error.response.data.error);
-        } else {
-          setError(error.message);
-        }
-      }
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (error: any) {
+        })
+        .catch((err: AxiosError<ErrorResponse>) => {
+          const errMsg = err.response?.data.error;
+          setError(
+            typeof errMsg === "string"
+              ? errMsg
+              : "An unexpected error occurred. Please try again.",
+          );
+        });
+    } catch (error: unknown) {
       setError("An unexpected error occurred. Please try again.");
       console.error(error);
     } finally {
@@ -60,11 +72,18 @@ export default function Login() {
     }
   };
 
+  const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    loginUser().catch((err) => {
+      console.error(err);
+    });
+  };
+
   return (
     <AuthLayout>
       <section className="xl:py-32 py-16 xl:px-28 md:px-16 px-8 w-full flex flex-col justify-center">
         <Stack spacing={4}>
-          <Stack spacing={2} className="">
+          {/* <Stack spacing={2} className="">
             <div className="w-full py-3 flex items-center space-x-6 justify-center border border-gray-200">
               <FcGoogle className="text-2xl" />
               <p>Log In With Google</p>
@@ -73,7 +92,7 @@ export default function Login() {
               <FaGithub className="text-2xl" />
               <p>Log In With GitHub</p>
             </div>
-          </Stack>
+          </Stack> */}
           <form
             action=""
             className="flex flex-col space-y-4 w-full"
@@ -110,7 +129,7 @@ export default function Login() {
             />
           </form>
           <section className="flex items-center space-x-2 self-center">
-            <Typography>Don't Have an Account?</Typography>
+            <Typography>Don&apos;t Have an Account?</Typography>
             <Link to="/auth/sign-up" className="text-blue-600">
               Sign Up
             </Link>
