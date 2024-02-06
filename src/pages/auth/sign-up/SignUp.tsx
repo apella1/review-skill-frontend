@@ -93,7 +93,7 @@ export default function SignUp() {
 
   return (
     <AuthLayout>
-      <section className="py-16 px-8 md:px-16 2xl:px-28">
+      <section className="py-16 px-8 md:px-16 2xl:px-28 shadow-lg">
         <Stack spacing={4}>
           {/* <Stack spacing={2} className="">
             <div className="w-full py-3 flex items-center space-x-6 justify-center border border-gray-200">
