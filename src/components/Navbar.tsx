@@ -9,8 +9,8 @@ const menuItems: MenuItem[] = [
 export default function Navbar() {
   return (
     <nav className="flex items-center justify-between pb-8">
-      <Link to="/" className="text-[#035afc] font-semibold text-[26px]">
-        RS
+      <Link to="/" className="font-medium text-2xl">
+        reviewskill
       </Link>
       <div className="flex items-center space-x-6">
         {menuItems.map((item, index) => (
