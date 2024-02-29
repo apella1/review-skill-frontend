@@ -57,4 +57,10 @@ With a seamless interface, users can easily input topics, set review intervals, 
 
 ## Setting Up Locally
 
+- Clone the repository
+- Switch to the root of the project and run `yarn` to install the dependencies
+- Run `yarn dev` to run the application
+- Run `yarn test` to run the tests on the terminal
+- Run `yarn test:ui` to run the tests in a UI window
+
 ## Screenshots
