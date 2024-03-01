@@ -17,6 +17,7 @@ module.exports = {
     ".eslintrc.cjs",
     "tailwind.config.ts",
     "vitest.config.ts",
+    "tests",
   ],
   parser: "@typescript-eslint/parser",
   parserOptions: {
