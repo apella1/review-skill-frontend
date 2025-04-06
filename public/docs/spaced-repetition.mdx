@@ -1,0 +1,36 @@
+# Spaced Repetition Algorithm
+
+Understanding how ReviewSkill schedules your reviews.
+
+## Algorithm Overview
+
+```typescript
+interface ReviewInterval {
+  easeFactor: number;
+  interval: number;
+  repetitions: number;
+}
+
+function calculateNextReview(
+  performance: number,
+  currentInterval: ReviewInterval,
+): ReviewInterval {
+  // Algorithm implementation details
+}
+```
+
+## Factors Considered
+
+- Previous performance
+- Current interval
+- Historical difficulty
+- Time of day
+- Learning patterns
+
+## Customization
+
+Adjust the algorithm through:
+
+- Interval modifiers
+- Ease factor adjustments
+- Review thresholds

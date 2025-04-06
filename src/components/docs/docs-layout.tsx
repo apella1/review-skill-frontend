@@ -60,7 +60,9 @@ export function DocsLayout({ children, slug }: DocsLayoutProps) {
             <RelatedArticles currentSlug={slug} />
           </div>
           <div className="w-64 py-6 px-4 hidden xl:block">
-            <TableOfContents contentRef={contentRef} />
+            <TableOfContents
+              contentRef={contentRef as React.RefObject<HTMLElement>}
+            />
           </div>
         </div>
       </div>

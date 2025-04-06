@@ -1,0 +1,34 @@
+# Flashcards
+
+Create and manage your flashcard decks effectively.
+
+## Creating Cards
+
+### Basic Cards
+
+```typescript
+interface Flashcard {
+  front: string;
+  back: string;
+  tags?: string[];
+}
+```
+
+### Rich Content
+
+- Support for markdown
+- Image attachments
+- Code snippets
+
+## Study Modes
+
+1. **Classic Review**: Traditional flashcard review
+2. **Cram Mode**: Intensive review for time-sensitive material
+3. **Mixed Practice**: Combined review across multiple decks
+
+## Tips for Good Flashcards
+
+- Keep cards atomic (one concept per card)
+- Use clear, concise language
+- Include relevant examples
+- Add tags for better organization
