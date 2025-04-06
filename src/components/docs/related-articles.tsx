@@ -9,10 +9,6 @@ interface RelatedArticlesProps {
 export function RelatedArticles({ currentSlug }: RelatedArticlesProps) {
   const getRelatedArticles = () => {
     // Simple algorithm to find related articles based on the current section
-    const allArticles = docsNavigation.flatMap((section) => section.items);
-    const currentArticle = allArticles.find(
-      (item) => item.slug === currentSlug,
-    );
     const currentSection = docsNavigation.find((section) =>
       section.items.some((item) => item.slug === currentSlug),
     );
