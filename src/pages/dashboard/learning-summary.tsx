@@ -1,3 +1,4 @@
+import { useState } from "react";
 import FlashcardSummary from "@/components/FlashcardSummary";
 import { Card, CardContent } from "@/components/ui/card";
 import {
@@ -7,50 +8,18 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useState } from "react";
-import { CardSummary } from "@/types/types";
+import {
+  TODAY_CARDS_SUMMARY,
+  DYNAMIC_CARDS_SUMMARY,
+  TIME_PERIODS,
+  DURATION_PERIODS,
+  TimePeriod,
+  DurationPeriod,
+} from "@/data/learning-summary";
 
 export default function LearningSummary() {
-  const [time, setTime] = useState("");
-  const [duration, setDuration] = useState("");
-
-  const todayCardsSummary: CardSummary[] = [
-    {
-      title: "Due Cards",
-      value: 0,
-    },
-    {
-      title: "Cards Learned",
-      value: 0,
-    },
-    {
-      title: "Total Reviews",
-      value: 0,
-    },
-    {
-      title: "Retention Rate",
-      value: 0,
-    },
-  ];
-
-  const dynamicCardsSummary: CardSummary[] = [
-    {
-      title: "Cards Learned",
-      value: 0,
-    },
-    {
-      title: "New Cards Learned",
-      value: 0,
-    },
-    {
-      title: "Total Reviews",
-      value: 0,
-    },
-    {
-      title: "Retention Rate",
-      value: 0,
-    },
-  ];
+  const [time, setTime] = useState<TimePeriod>();
+  const [duration, setDuration] = useState<DurationPeriod>();
 
   return (
     <div className="w-full space-y-6">
@@ -59,7 +28,7 @@ export default function LearningSummary() {
           <div className="space-y-4">
             <h2 className="text-lg font-medium">Today</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-              {todayCardsSummary.map((card, index) => (
+              {TODAY_CARDS_SUMMARY.map((card, index) => (
                 <FlashcardSummary summary={card} key={index} />
               ))}
             </div>
@@ -72,31 +41,41 @@ export default function LearningSummary() {
           <div className="space-y-4">
             <h2 className="text-lg font-medium">Overview</h2>
             <div className="flex flex-col sm:flex-row gap-4">
-              <Select value={duration} onValueChange={setDuration}>
+              <Select
+                value={duration}
+                onValueChange={(value: DurationPeriod) => setDuration(value)}
+              >
                 <SelectTrigger className="w-full">
                   <SelectValue placeholder="Select Duration" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="week">Last 1 Week</SelectItem>
-                  <SelectItem value="month">Last 1 Month</SelectItem>
-                  <SelectItem value="year">Last 1 Year</SelectItem>
-                  <SelectItem value="all-time">All Time</SelectItem>
+                  {DURATION_PERIODS.map(({ value, label }) => (
+                    <SelectItem key={value} value={value}>
+                      {label}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
 
-              <Select value={time} onValueChange={setTime}>
+              <Select
+                value={time}
+                onValueChange={(value: TimePeriod) => setTime(value)}
+              >
                 <SelectTrigger className="w-full">
                   <SelectValue placeholder="Select Time Period" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="daily">Daily</SelectItem>
-                  <SelectItem value="monthly">Monthly</SelectItem>
+                  {TIME_PERIODS.map(({ value, label }) => (
+                    <SelectItem key={value} value={value}>
+                      {label}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-              {dynamicCardsSummary.map((card, index) => (
+              {DYNAMIC_CARDS_SUMMARY.map((card, index) => (
                 <FlashcardSummary summary={card} key={index} />
               ))}
             </div>

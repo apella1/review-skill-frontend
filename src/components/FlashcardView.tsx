@@ -1,10 +1,10 @@
-import { DBFlashcard } from "../types/flashcards";
+import { Flashcard } from "../types/aggregates/flashcards";
 
 export default function FlashcardView({
   flashcard,
   handleFlashcardDelete,
 }: {
-  flashcard: DBFlashcard;
+  flashcard: Flashcard;
   handleFlashcardDelete: () => void;
 }) {
   const { title, tags } = flashcard;

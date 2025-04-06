@@ -1,18 +1,20 @@
+import { store } from "@/app/store";
 import { ThemeProvider } from "@/components/theme-provider";
+import { Provider } from "react-redux";
 import { RouterProvider, createBrowserRouter } from "react-router";
-import RootLayout from "./layouts/root-layout";
 import DashboardLayout from "./layouts/dashboard-layout";
+import RootLayout from "./layouts/root-layout";
 import Login from "./pages/auth/login/login";
 import SignUp from "./pages/auth/sign-up/signup";
-import DashboardNotes from "./pages/dashboard/DashboardNotes";
-import DashboardSettings from "./pages/dashboard/DashboardSettings";
-import FlashCards from "./pages/dashboard/FlashCards";
+import DashboardNotes from "./pages/dashboard/dashboard-notes";
+import DashboardSettings from "./pages/dashboard/dashboard-settings";
+import FlashCards from "./pages/dashboard/flashcards";
+import LearningSummary from "./pages/dashboard/learning-summary";
 import TodayCards from "./pages/dashboard/TodayCards";
 import Docs from "./pages/docs/Docs";
+import Home from "./pages/home/Home";
 import PrivacyPolicy from "./pages/policy/PrivacyPolicy";
 import TermsOfService from "./pages/policy/TermsOfService";
-import Home from "./pages/home/Home";
-import LearningSummary from "./pages/dashboard/learning-summary";
 
 const router = createBrowserRouter([
   {
@@ -38,12 +40,12 @@ const router = createBrowserRouter([
   },
 ]);
 
-function App() {
+export default function App() {
   return (
-    <ThemeProvider defaultTheme="light">
-      <RouterProvider router={router} />
-    </ThemeProvider>
+    <Provider store={store}>
+      <ThemeProvider defaultTheme="light">
+        <RouterProvider router={router} />
+      </ThemeProvider>
+    </Provider>
   );
 }
-
-export default App;
