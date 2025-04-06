@@ -130,7 +130,7 @@ export default function FlashCards() {
   }, [dataPosted]);
 
   return (
-    <>
+    <section>
       <section>
         <h2 className="pb-4 font-semibold text-2xl">Create a New Flashcard</h2>
         <form
@@ -207,6 +207,6 @@ export default function FlashCards() {
           </div>
         </section>
       )}
-    </>
+    </section>
   );
 }

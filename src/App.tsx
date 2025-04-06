@@ -1,20 +1,18 @@
 import { ThemeProvider } from "@/components/theme-provider";
 import { RouterProvider, createBrowserRouter } from "react-router";
-import {
-  Dashboard,
-  DashboardNotes,
-  DashboardSettings,
-  Docs,
-  FlashCards,
-  Home,
-  Login,
-  PrivacyPolicy,
-  SignUp,
-  TermsOfService,
-  TodayCards,
-} from "./pages";
 import RootLayout from "./layouts/root-layout";
 import DashboardLayout from "./layouts/dashboard-layout";
+import Login from "./pages/auth/login/login";
+import SignUp from "./pages/auth/sign-up/signup";
+import DashboardNotes from "./pages/dashboard/DashboardNotes";
+import DashboardSettings from "./pages/dashboard/DashboardSettings";
+import FlashCards from "./pages/dashboard/FlashCards";
+import TodayCards from "./pages/dashboard/TodayCards";
+import Docs from "./pages/docs/Docs";
+import PrivacyPolicy from "./pages/policy/PrivacyPolicy";
+import TermsOfService from "./pages/policy/TermsOfService";
+import Home from "./pages/home/Home";
+import LearningSummary from "./pages/dashboard/learning-summary";
 
 const router = createBrowserRouter([
   {
@@ -31,7 +29,7 @@ const router = createBrowserRouter([
   {
     element: <DashboardLayout />,
     children: [
-      { path: "/dashboard/summary", element: <Dashboard /> },
+      { path: "/dashboard/summary", element: <LearningSummary /> },
       { path: "/dashboard/today", element: <TodayCards /> },
       { path: "/dashboard/notes", element: <DashboardNotes /> },
       { path: "/dashboard/flashcards", element: <FlashCards /> },

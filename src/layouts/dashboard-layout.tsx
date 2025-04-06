@@ -143,8 +143,8 @@ export default function DashboardLayout() {
           </SidebarFooter>
         </Sidebar>
 
-        <main className="w-full">
-          <header className="sticky top-0 z-10 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+        <main className="w-full flex-1">
+          <header className="">
             <div className="flex h-16 items-center gap-4 px-6">
               <SidebarTrigger />
 
@@ -208,7 +208,7 @@ export default function DashboardLayout() {
             </div>
           </header>
 
-          <div className="p-6">
+          <div className="p-6 w-full">
             <Outlet />
           </div>
         </main>
