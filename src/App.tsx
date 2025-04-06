@@ -6,9 +6,9 @@ import DashboardLayout from "./layouts/dashboard-layout";
 import RootLayout from "./layouts/root-layout";
 import Login from "./pages/auth/login/login";
 import SignUp from "./pages/auth/sign-up/signup";
-import DashboardNotes from "./pages/dashboard/dashboard-notes";
 import DashboardSettings from "./pages/dashboard/dashboard-settings";
 import FlashCards from "./pages/dashboard/flashcards";
+import LearningNotes from "./pages/dashboard/learning-notes";
 import LearningSummary from "./pages/dashboard/learning-summary";
 import TodayCards from "./pages/dashboard/TodayCards";
 import Docs from "./pages/docs/Docs";
@@ -33,7 +33,7 @@ const router = createBrowserRouter([
     children: [
       { path: "/dashboard/summary", element: <LearningSummary /> },
       { path: "/dashboard/today", element: <TodayCards /> },
-      { path: "/dashboard/notes", element: <DashboardNotes /> },
+      { path: "/dashboard/notes", element: <LearningNotes /> },
       { path: "/dashboard/flashcards", element: <FlashCards /> },
       { path: "/dashboard/settings", element: <DashboardSettings /> },
     ],
