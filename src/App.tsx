@@ -14,6 +14,7 @@ import {
   TodayCards,
 } from "./pages";
 import RootLayout from "./layouts/root-layout";
+import DashboardLayout from "./layouts/dashboard-layout";
 
 const router = createBrowserRouter([
   {
@@ -27,11 +28,16 @@ const router = createBrowserRouter([
       { path: "/auth/sign-up", element: <SignUp /> },
     ],
   },
-  { path: "/dashboard/summary", element: <Dashboard /> },
-  { path: "/dashboard/today", element: <TodayCards /> },
-  { path: "/dashboard/notes", element: <DashboardNotes /> },
-  { path: "/dashboard/flashcards", element: <FlashCards /> },
-  { path: "/dashboard/settings", element: <DashboardSettings /> },
+  {
+    element: <DashboardLayout />,
+    children: [
+      { path: "/dashboard/summary", element: <Dashboard /> },
+      { path: "/dashboard/today", element: <TodayCards /> },
+      { path: "/dashboard/notes", element: <DashboardNotes /> },
+      { path: "/dashboard/flashcards", element: <FlashCards /> },
+      { path: "/dashboard/settings", element: <DashboardSettings /> },
+    ],
+  },
 ]);
 
 function App() {

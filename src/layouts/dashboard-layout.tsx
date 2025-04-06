@@ -1,71 +1,82 @@
-import {
-  Avatar,
-  IconButton,
-  ListItemIcon,
-  Menu,
-  MenuItem,
-  Tooltip,
-} from "@mui/material";
 import { useEffect, useState } from "react";
-import { IoMdLogOut } from "react-icons/io";
-import { IoSettingsOutline } from "react-icons/io5";
-import { Link, useLocation, useNavigate } from "react-router";
-import { client } from "../axios/axios";
-import { DBUser, SidebarLink } from "../types/types";
+import { Link, Outlet, useLocation, useNavigate } from "react-router";
+import {
+  LogOut,
+  Settings,
+  User,
+  Home,
+  Calendar,
+  BookOpen,
+  StickyNote,
+  SunIcon,
+  MoonIcon,
+} from "lucide-react";
+import { client } from "@/axios/axios";
+import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Input } from "@/components/ui/input";
+import { useTheme } from "@/components/theme-provider";
+import { DBUser, SidebarLink } from "@/types/types";
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarFooter,
+  SidebarHeader,
+  SidebarMenu,
+  SidebarMenuItem,
+  SidebarMenuButton,
+  SidebarProvider,
+  SidebarTrigger,
+} from "@/components/ui/sidebar";
 
-const sidebarLinks: SidebarLink[] = [
-  { title: "Summary", link: "/dashboard/summary" },
-  { title: "Due Today", link: "/dashboard/today" },
-  { title: "Flashcards", link: "/dashboard/flashcards" },
-  { title: "Notes", link: "/dashboard/notes" },
-  { title: "Settings", link: "/dashboard/settings" },
+const sidebarLinks: (SidebarLink & { icon: React.ReactNode })[] = [
+  {
+    title: "Summary",
+    link: "/dashboard/summary",
+    icon: <Home className="h-4 w-4" />,
+  },
+  {
+    title: "Due Today",
+    link: "/dashboard/today",
+    icon: <Calendar className="h-4 w-4" />,
+  },
+  {
+    title: "Flashcards",
+    link: "/dashboard/flashcards",
+    icon: <BookOpen className="h-4 w-4" />,
+  },
+  {
+    title: "Notes",
+    link: "/dashboard/notes",
+    icon: <StickyNote className="h-4 w-4" />,
+  },
+  {
+    title: "Settings",
+    link: "/dashboard/settings",
+    icon: <Settings className="h-4 w-4" />,
+  },
 ];
 
-function stringToColor(str: string) {
-  let hash = 0;
-  let i;
-  for (i = 0; i < str.length; i++) {
-    hash = str.charCodeAt(i) + ((hash << 5) - hash);
-  }
-  let color = "#";
-  for (i = 0; i < 3; i++) {
-    const value = (hash >> (i * 8)) & 0xff;
-    color += `00${value.toString(16)}`.slice(-2);
-  }
-  return color;
+function getInitials(firstName: string, lastName: string): string {
+  return `${firstName.charAt(0)}${lastName.charAt(0)}`.toUpperCase();
 }
 
-function stringAvatar(name: string) {
-  return {
-    sx: {
-      bgcolor: stringToColor(name),
-    },
-    children: `${name.split(" ")[0][0]}${name.split(" ")[1][0]}`,
-  };
-}
-
-export default function DashboardLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const open = Boolean(anchorEl);
+export default function DashboardLayout() {
   const [user, setUser] = useState<DBUser>({} as DBUser);
   const [search, setSearch] = useState("");
   const navigate = useNavigate();
+  const location = useLocation();
+  const { theme, setTheme } = useTheme();
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = e.target;
-    setSearch(value);
-  };
-
-  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
+    setSearch(e.target.value);
   };
 
   const handleLogout = () => {
@@ -76,8 +87,6 @@ export default function DashboardLayout({
   const handleSettings = () => {
     navigate("/dashboard/settings");
   };
-
-  const location = useLocation();
 
   useEffect(() => {
     const jwtToken = localStorage.getItem("token");
@@ -94,121 +103,117 @@ export default function DashboardLayout({
         console.error(error);
       }
     }
-    fetchUser().catch((err) => {
-      console.error(err);
-    });
+    fetchUser();
   }, []);
 
   return (
-    <section className="flex">
-      <section className="fixed w-[17%] flex flex-col justify-between space-y-6 px-4 py-4 h-screen">
-        <div className="flex flex-col space-y-4">
-          <Link to={"/"} className="font-medium text-2xl pb-8">
-            reviewskill
-          </Link>
-          <div className="flex flex-col space-y-2">
-            {sidebarLinks.map((sidebarLink, index) => (
-              <Link
-                to={sidebarLink.link}
-                key={index}
-                className={`${
-                  location.pathname === sidebarLink.link
-                    ? "bg-[#035afc] text-white"
-                    : "bg-[#fafcfc]"
-                } px-4 py-2 w-full rounded-[5px] font-medium`}
-              >
-                {sidebarLink.title}
-              </Link>
-            ))}
+    <SidebarProvider>
+      <div className="flex min-h-screen">
+        <Sidebar>
+          <SidebarHeader className="border-b px-4 py-6">
+            <Link to="/" className="flex items-center">
+              ReviewSkill
+            </Link>
+          </SidebarHeader>
+
+          <SidebarContent>
+            <SidebarMenu>
+              {sidebarLinks.map((link, index) => (
+                <SidebarMenuItem key={index}>
+                  <SidebarMenuButton
+                    asChild
+                    isActive={location.pathname === link.link}
+                    tooltip={link.title}
+                  >
+                    <Link to={link.link} className="flex items-center gap-2">
+                      {link.icon}
+                      <span>{link.title}</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </SidebarContent>
+
+          <SidebarFooter className="border-t p-4">
+            <div className="flex items-center space-x-2 text-sm text-muted-foreground">
+              <span>&copy; {new Date().getFullYear()}</span>
+              <span className="font-medium">ReviewSkill</span>
+            </div>
+          </SidebarFooter>
+        </Sidebar>
+
+        {/* Main Content */}
+        <main className="flex-1">
+          <header className="sticky top-0 z-10 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+            <div className="flex h-16 items-center gap-4 px-6">
+              <SidebarTrigger />
+
+              {location.pathname !== "/dashboard/settings" && (
+                <Input
+                  type="search"
+                  placeholder="Search Memory Cards..."
+                  value={search}
+                  onChange={handleSearchChange}
+                  className="w-[400px]"
+                />
+              )}
+
+              <div className="ml-auto flex items-center gap-4">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => setTheme(theme === "light" ? "dark" : "light")}
+                >
+                  {theme === "light" ? (
+                    <SunIcon className="h-5 w-5" />
+                  ) : (
+                    <MoonIcon className="h-5 w-5" />
+                  )}
+                  <span className="sr-only">Toggle theme</span>
+                </Button>
+
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button
+                      variant="ghost"
+                      className="relative h-8 w-8 rounded-full"
+                    >
+                      <Avatar className="h-8 w-8">
+                        <AvatarFallback>
+                          {getInitials(
+                            user.first_name || "",
+                            user.last_name || "",
+                          )}
+                        </AvatarFallback>
+                      </Avatar>
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent className="w-56" align="end" forceMount>
+                    <DropdownMenuItem className="flex items-center">
+                      <User className="mr-2 h-4 w-4" />
+                      <span>{`${user.first_name} ${user.last_name}`}</span>
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem onClick={handleSettings}>
+                      <Settings className="mr-2 h-4 w-4" />
+                      <span>Settings</span>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={handleLogout}>
+                      <LogOut className="mr-2 h-4 w-4" />
+                      <span>Log out</span>
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </div>
+            </div>
+          </header>
+
+          <div className="p-6">
+            <Outlet />
           </div>
-        </div>
-        <div className="flex items-center space-x-2">
-          <p> &copy; {new Date().getFullYear()}</p>
-          <p className="text-[#035afc] font-medium">ReviewSkill</p>
-        </div>
-      </section>
-      <section className="min-h-screen ml-auto flex flex-col space-y-6 w-[83%] p-4">
-        <section
-          className={`flex items-center ${
-            location.pathname === "/dashboard/settings"
-              ? "justify-end"
-              : "justify-between"
-          }`}
-        >
-          {location.pathname !== "/dashboard/settings" && (
-            <input
-              type="search"
-              placeholder="Search Memory Cards..."
-              value={search}
-              onChange={handleSearchChange}
-              className="w-[50%] border border-[#D9D9D9] py-2 px-4 text-[#000000] text-[14px] leading-[20px] rounded-[8px] placeholder:text-[#7C7C8D] placeholder:text-[14px] placeholder:leading-[20px]"
-            />
-          )}
-          <Tooltip title="Account settings">
-            <IconButton
-              onClick={handleClick}
-              size="small"
-              sx={{ ml: 2 }}
-              aria-controls={open ? "account-menu" : undefined}
-              aria-haspopup="true"
-              aria-expanded={open ? "true" : undefined}
-            >
-              <Avatar
-                {...stringAvatar(`${user.first_name} ${user.last_name}`)}
-              />
-            </IconButton>
-          </Tooltip>
-          <Menu
-            anchorEl={anchorEl}
-            id="account-menu"
-            open={open}
-            onClose={handleClose}
-            onClick={handleClose}
-            PaperProps={{
-              elevation: 0,
-              sx: {
-                overflow: "visible",
-                filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
-                mt: 1.5,
-                "& .MuiAvatar-root": {
-                  width: 32,
-                  height: 32,
-                  ml: -0.5,
-                  mr: 1,
-                },
-                "&::before": {
-                  content: '""',
-                  display: "block",
-                  position: "absolute",
-                  top: 0,
-                  right: 14,
-                  width: 10,
-                  height: 10,
-                  bgcolor: "background.paper",
-                  transform: "translateY(-50%) rotate(45deg)",
-                  zIndex: 0,
-                },
-              },
-            }}
-            transformOrigin={{ horizontal: "right", vertical: "top" }}
-            anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
-          >
-            <MenuItem onClick={handleSettings}>
-              <ListItemIcon>
-                <IoSettingsOutline />
-              </ListItemIcon>
-              Settings
-            </MenuItem>
-            <MenuItem onClick={handleLogout}>
-              <ListItemIcon>
-                <IoMdLogOut />
-              </ListItemIcon>
-              Logout
-            </MenuItem>
-          </Menu>
-        </section>
-        {children}
-      </section>
-    </section>
+        </main>
+      </div>
+    </SidebarProvider>
   );
 }
