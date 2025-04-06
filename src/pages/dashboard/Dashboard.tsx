@@ -1,3 +1,4 @@
+import FlashcardSummary from "@/components/FlashcardSummary";
 import {
   FormControl,
   InputLabel,
@@ -6,7 +7,6 @@ import {
   SelectChangeEvent,
 } from "@mui/material";
 import { useState } from "react";
-import { FlashcardSummary } from "../../components";
 import { CardSummary } from "../../types/types";
 
 export default function Dashboard() {
@@ -59,7 +59,7 @@ export default function Dashboard() {
   ];
 
   return (
-    <section className="flex flex-col space-y-4">
+    <section className="flex flex-col space-y-4 w-full">
       <section className="flex flex-col space-y-2">
         <h2 className="font-medium">Today</h2>
         <div className="grid grid-cols-3 gap-4">

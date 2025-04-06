@@ -1,9 +1,8 @@
 import { useCallback, useEffect, useState } from "react";
 import { client } from "../../axios/axios";
-import { CustomButton, FlashcardView } from "../../components";
 import { DBFlashcard } from "../../types/flashcards";
-import ProtectedLayout from "@/layouts/protected-layout";
-import DashboardLayout from "@/layouts/dashboard-layout";
+import CustomButton from "@/components/CustomButton";
+import FlashcardView from "@/components/FlashcardView";
 
 interface FlashCard {
   title: string;
@@ -131,87 +130,83 @@ export default function FlashCards() {
   }, [dataPosted]);
 
   return (
-    <ProtectedLayout>
-      <DashboardLayout>
-        <section>
-          <h2 className="pb-4 font-semibold text-2xl">
-            Create a New Flashcard
-          </h2>
-          <form
-            action=""
-            className="flex flex-col space-y-3"
-            onSubmit={handleCreateFlashcard}
-          >
+    <>
+      <section>
+        <h2 className="pb-4 font-semibold text-2xl">Create a New Flashcard</h2>
+        <form
+          action=""
+          className="flex flex-col space-y-3"
+          onSubmit={handleCreateFlashcard}
+        >
+          <input
+            required
+            type="text"
+            name="title"
+            placeholder="Enter Card Title.."
+            onChange={handleChange}
+            value={flashcardData.title}
+            className="w-[80%] px-4 py-2 border border-gray-200"
+          />
+          <textarea
+            required
+            className="border-gray-200 border w-[80%] p-4 h-[200px]"
+            name="body"
+            placeholder="Enter Card Body"
+            value={flashcardData.body}
+            onChange={handleChange}
+          />
+          <input
+            required
+            type="text"
+            name="tags"
+            placeholder="Enter tags separated by a comma..."
+            value={flashcardData.tags.join(", ")}
+            onChange={handleChange}
+            className="w-[80%] px-4 py-2 border border-gray-200"
+          />
+          {successCreateMsg && (
+            <p className="text-green-800">{successCreateMsg}</p>
+          )}
+          <CustomButton
+            button={{
+              title: "Create Card",
+              bgColor: "bg-[#035afc]",
+              textColor: "text-white",
+              type: "submit",
+              rounded: true,
+              disabled: loading ? true : false,
+            }}
+          />
+        </form>
+      </section>
+      {availableFlashcards.length > 0 && (
+        <section className="flex flex-col space-y-4">
+          <p className="font-semibold text-2xl">Available Flashcards</p>
+          <div>
             <input
-              required
-              type="text"
-              name="title"
-              placeholder="Enter Card Title.."
-              onChange={handleChange}
-              value={flashcardData.title}
-              className="w-[80%] px-4 py-2 border border-gray-200"
+              type="search"
+              placeholder="Search Flashcards..."
+              value={search}
+              onChange={handleSearchChange}
+              className="w-fit border border-[#D9D9D9] py-2 px-4 text-[#000000] text-[14px] leading-[20px] rounded-[8px] placeholder:text-[#7C7C8D] placeholder:text-[14px] placeholder:leading-[20px]"
             />
-            <textarea
-              required
-              className="border-gray-200 border w-[80%] p-4 h-[200px]"
-              name="body"
-              placeholder="Enter Card Body"
-              value={flashcardData.body}
-              onChange={handleChange}
-            />
-            <input
-              required
-              type="text"
-              name="tags"
-              placeholder="Enter tags separated by a comma..."
-              value={flashcardData.tags.join(", ")}
-              onChange={handleChange}
-              className="w-[80%] px-4 py-2 border border-gray-200"
-            />
-            {successCreateMsg && (
-              <p className="text-green-800">{successCreateMsg}</p>
-            )}
-            <CustomButton
-              button={{
-                title: "Create Card",
-                bgColor: "bg-[#035afc]",
-                textColor: "text-white",
-                type: "submit",
-                rounded: true,
-                disabled: loading ? true : false,
-              }}
-            />
-          </form>
-        </section>
-        {availableFlashcards.length > 0 && (
-          <section className="flex flex-col space-y-4">
-            <p className="font-semibold text-2xl">Available Flashcards</p>
-            <div>
-              <input
-                type="search"
-                placeholder="Search Flashcards..."
-                value={search}
-                onChange={handleSearchChange}
-                className="w-fit border border-[#D9D9D9] py-2 px-4 text-[#000000] text-[14px] leading-[20px] rounded-[8px] placeholder:text-[#7C7C8D] placeholder:text-[14px] placeholder:leading-[20px]"
+          </div>
+          {successDeleteMsg && (
+            <p className="text-green-800 text-base">{successDeleteMsg}</p>
+          )}
+          <div className="grid grid-cols-4 gap-8">
+            {availableFlashcards.map((flashcard, index) => (
+              <FlashcardView
+                flashcard={flashcard}
+                key={index}
+                handleFlashcardDelete={() => {
+                  handleFlashcardDelete(flashcard.id);
+                }}
               />
-            </div>
-            {successDeleteMsg && (
-              <p className="text-green-800 text-base">{successDeleteMsg}</p>
-            )}
-            <div className="grid grid-cols-4 gap-8">
-              {availableFlashcards.map((flashcard, index) => (
-                <FlashcardView
-                  flashcard={flashcard}
-                  key={index}
-                  handleFlashcardDelete={() => {
-                    handleFlashcardDelete(flashcard.id);
-                  }}
-                />
-              ))}
-            </div>
-          </section>
-        )}
-      </DashboardLayout>
-    </ProtectedLayout>
+            ))}
+          </div>
+        </section>
+      )}
+    </>
   );
 }

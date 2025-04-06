@@ -143,8 +143,7 @@ export default function DashboardLayout() {
           </SidebarFooter>
         </Sidebar>
 
-        {/* Main Content */}
-        <main className="flex-1">
+        <main className="w-full">
           <header className="sticky top-0 z-10 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
             <div className="flex h-16 items-center gap-4 px-6">
               <SidebarTrigger />

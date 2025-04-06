@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { FcCamera } from "react-icons/fc";
-import { InputCard } from "..";
 import { client } from "../../axios/axios";
 import { DBUser, InputProps } from "../../types/types";
+import InputCard from "../InputCard";
 
 export default function DashboardMainContent() {
   const [userData, setUserData] = useState<DBUser>({
