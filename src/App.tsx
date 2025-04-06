@@ -12,7 +12,7 @@ import LearningNotes from "./pages/dashboard/learning-notes";
 import LearningSummary from "./pages/dashboard/learning-summary";
 import TodayCards from "./pages/dashboard/TodayCards";
 import Docs from "./pages/docs/Docs";
-import Home from "./pages/home/Home";
+import Home from "./pages/home/home";
 import PrivacyPolicy from "./pages/policy/PrivacyPolicy";
 import TermsOfService from "./pages/policy/TermsOfService";
 
