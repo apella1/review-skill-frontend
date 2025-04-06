@@ -1,113 +1,204 @@
-import DashboardMainContent from "@/components/dashboard/DashboardMainContent";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { LockIcon, ShieldCheckIcon, UserIcon } from "lucide-react";
 import { useState } from "react";
 
 export default function DashboardSettings() {
   const [twoFactorAuth, setTwoFactorAuth] = useState<boolean>(false);
-  const handleToggle = () => {
-    setTwoFactorAuth((prev) => !prev);
-  };
   const [passwordData, setPasswordData] = useState({
     currentPass: "",
     newPass: "",
     newPassConf: "",
   });
+  const [personalInfo, setPersonalInfo] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    phoneNumber: "",
+  });
+
+  const handleToggle = () => {
+    setTwoFactorAuth((prev) => !prev);
+  };
 
   const handlePasswordDataChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setPasswordData((prev) => ({ ...prev, [name]: value }));
   };
 
+  const handlePersonalInfoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setPersonalInfo((prev) => ({ ...prev, [name]: value }));
+  };
+
   return (
-    <section>
-      <DashboardMainContent />
-      <section className="flex flex-col">
-        <form action="" className="flex flex-col space-y-4">
-          <section className="flex flex-col space-y-12">
-            <section className="flex flex-col space-y-3">
-              <h2 className="text-[#6C6C6C] text-[17px] leading-[20px] font-medium">
-                Change Password
-              </h2>
-              <div className="border border-[#D9D9D9] rounded-[8px] p-4 flex flex-col space-y-4">
-                <div className="flex flex-col space-y-2">
-                  <label
-                    htmlFor="current"
-                    className="text-[#666666] text-[14px] leading-[21px] font-medium"
-                  >
-                    Current Password
-                  </label>
-                  <input
-                    type="password"
-                    name="currentPass"
-                    value={passwordData.currentPass}
-                    onChange={handlePasswordDataChange}
-                    className="border border-[#D9D9D9] py-2 px-4 text-[#000000] text-[14px] leading-[20px] rounded-[8px] placeholder:text-[#7C7C8D] placeholder:text-[14px] placeholder:leading-[20px]"
-                  />
-                </div>
-                <div className="flex flex-col space-y-1">
-                  <label
-                    htmlFor="current"
-                    className="text-[#666666] text-[14px] leading-[21px] font-medium"
-                  >
-                    New Password
-                  </label>
-                  <input
-                    type="password"
-                    name="newPass"
-                    value={passwordData.newPass}
-                    onChange={handlePasswordDataChange}
-                    className="border border-[#D9D9D9] py-2 px-4 text-[#000000] text-[14px] leading-[20px] rounded-[8px] placeholder:text-[#7C7C8D] placeholder:text-[14px] placeholder:leading-[20px]"
-                  />
-                </div>
-                <div className="flex flex-col space-y-1">
-                  <label
-                    htmlFor="current"
-                    className="text-[#666666] text-[14px] leading-[21px] font-medium"
-                  >
-                    Confirm New Password
-                  </label>
-                  <input
-                    type="password"
-                    name="newPassConf"
-                    value={passwordData.newPassConf}
-                    onChange={handlePasswordDataChange}
-                    className="border border-[#D9D9D9] py-2 px-4 text-[#000000] text-[14px] leading-[20px] rounded-[8px] placeholder:text-[#7C7C8D] placeholder:text-[14px] placeholder:leading-[20px]"
-                  />
-                </div>
-                <button className="bg-[#035afc] px-4 py-2 rounded-[8px] text-white text-[14px] leading-[20px] font-medium">
-                  Change Password
-                </button>
+    <div className="container mx-auto py-6 space-y-8">
+      <Tabs defaultValue="personal" className="space-y-6">
+        <TabsList className="grid w-full grid-cols-2">
+          <TabsTrigger value="personal">Personal Information</TabsTrigger>
+          <TabsTrigger value="security">Security Settings</TabsTrigger>
+        </TabsList>
+
+        <TabsContent value="personal">
+          <Card>
+            <CardHeader>
+              <div className="flex items-center gap-2">
+                <UserIcon className="h-5 w-5 text-muted-foreground" />
+                <CardTitle>Personal Information</CardTitle>
               </div>
-            </section>
-            <section className="flex flex-col space-y-6 p-8 border border-gray-200">
-              <h2 className="text-[#6C6C6C] text-[17px] leading-[20px] font-medium">
-                Toggle Two-Factor Authentication
-              </h2>
-              <div className="flex justify-between items-center">
-                <label
-                  htmlFor="phone"
-                  className="text-[#6C6C6C] text-[17px] leading-[20px] font-medium"
-                >
-                  2-FA Authentication
-                </label>
-                <div
-                  className={`rounded-full w-10 py-[2px] ${
-                    twoFactorAuth ? "bg-[#085ED8]" : "bg-[#5570F166]"
-                  }`}
-                >
-                  <div
-                    onClick={handleToggle}
-                    className={`w-4 h-4 rounded-full shadow-md transform transition duration-300 ease-in-out cursor-pointer ${
-                      twoFactorAuth
-                        ? "bg-[#ffffff] translate-x-6"
-                        : "translate-x-0 bg-[#BBC5CB] "
-                    }`}
-                  ></div>
+              <CardDescription>
+                Manage your personal information and contact details
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <form className="space-y-4">
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="grid gap-2">
+                    <Label htmlFor="firstName">First Name</Label>
+                    <Input
+                      id="firstName"
+                      name="firstName"
+                      value={personalInfo.firstName}
+                      onChange={handlePersonalInfoChange}
+                      placeholder="John"
+                    />
+                  </div>
+                  <div className="grid gap-2">
+                    <Label htmlFor="lastName">Last Name</Label>
+                    <Input
+                      id="lastName"
+                      name="lastName"
+                      value={personalInfo.lastName}
+                      onChange={handlePersonalInfoChange}
+                      placeholder="Doe"
+                    />
+                  </div>
                 </div>
-              </div>
-            </section>
-          </section>
-        </form>
-      </section>
-    </section>
+
+                <div className="grid gap-2">
+                  <Label htmlFor="email">Email Address</Label>
+                  <Input
+                    id="email"
+                    name="email"
+                    type="email"
+                    value={personalInfo.email}
+                    onChange={handlePersonalInfoChange}
+                    placeholder="john.doe@example.com"
+                  />
+                </div>
+
+                <div className="grid gap-2">
+                  <Label htmlFor="phoneNumber">Phone Number</Label>
+                  <Input
+                    id="phoneNumber"
+                    name="phoneNumber"
+                    type="tel"
+                    value={personalInfo.phoneNumber}
+                    onChange={handlePersonalInfoChange}
+                    placeholder="+1 (555) 000-0000"
+                  />
+                </div>
+
+                <Button type="submit">Save Changes</Button>
+              </form>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="security">
+          <div className="grid gap-6">
+            {/* Password Change Section */}
+            <Card>
+              <CardHeader>
+                <div className="flex items-center gap-2">
+                  <LockIcon className="h-5 w-5 text-muted-foreground" />
+                  <CardTitle>Change Password</CardTitle>
+                </div>
+                <CardDescription>
+                  Update your password to keep your account secure
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <form className="space-y-4">
+                  <div className="grid gap-4">
+                    <div className="grid gap-2">
+                      <Label htmlFor="currentPass">Current Password</Label>
+                      <Input
+                        id="currentPass"
+                        type="password"
+                        name="currentPass"
+                        value={passwordData.currentPass}
+                        onChange={handlePasswordDataChange}
+                      />
+                    </div>
+
+                    <div className="grid gap-2">
+                      <Label htmlFor="newPass">New Password</Label>
+                      <Input
+                        id="newPass"
+                        type="password"
+                        name="newPass"
+                        value={passwordData.newPass}
+                        onChange={handlePasswordDataChange}
+                      />
+                    </div>
+
+                    <div className="grid gap-2">
+                      <Label htmlFor="newPassConf">Confirm New Password</Label>
+                      <Input
+                        id="newPassConf"
+                        type="password"
+                        name="newPassConf"
+                        value={passwordData.newPassConf}
+                        onChange={handlePasswordDataChange}
+                      />
+                    </div>
+                  </div>
+
+                  <Button type="submit">Update Password</Button>
+                </form>
+              </CardContent>
+            </Card>
+
+            {/* 2FA Section */}
+            <Card>
+              <CardHeader>
+                <div className="flex items-center gap-2">
+                  <ShieldCheckIcon className="h-5 w-5 text-muted-foreground" />
+                  <CardTitle>Two-Factor Authentication</CardTitle>
+                </div>
+                <CardDescription>
+                  Add an extra layer of security to your account
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="flex items-center justify-between">
+                  <div className="space-y-1">
+                    <Label>2FA Authentication</Label>
+                    <p className="text-sm text-muted-foreground">
+                      Secure your account with two-factor authentication
+                    </p>
+                  </div>
+                  <Switch
+                    checked={twoFactorAuth}
+                    onCheckedChange={handleToggle}
+                  />
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </TabsContent>
+      </Tabs>
+    </div>
   );
 }
