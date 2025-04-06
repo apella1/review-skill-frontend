@@ -1,7 +1,7 @@
 import { Box, Stack } from "@mui/material";
-import { Link } from "react-router-dom";
-import authImg from "/src/assets/images/auth.jpg";
 import { AiFillHome } from "react-icons/ai";
+import { Link } from "react-router";
+import authImg from "/src/assets/images/auth.jpg";
 
 export default function AuthLayout({
   children,

@@ -18,14 +18,14 @@ With a seamless interface, users can easily input topics, set review intervals, 
 
 ### UI Libraries
 
-- React
-- Tailwind CSS
-- React Icons
-- Material UI
+- React v19
+- Tailwind v4
+- Lucide Icons
+- Shadcn UI
 
 ### Routing
 
-- React Router
+- React Router v7
 
 ### State Management
 

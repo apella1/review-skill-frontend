@@ -9,7 +9,7 @@ import {
 import { useEffect, useState } from "react";
 import { IoMdLogOut } from "react-icons/io";
 import { IoSettingsOutline } from "react-icons/io5";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router";
 import { client } from "../axios/axios";
 import { DBUser, SidebarLink } from "../types/types";
 

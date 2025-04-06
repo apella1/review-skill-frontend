@@ -1,11 +1,11 @@
 import { Stack, TextField, Typography } from "@mui/material";
+import { AxiosError, isAxiosError } from "axios";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import { client } from "../../../axios/axios";
 import { CustomButton } from "../../../components";
 import { AuthLayout } from "../../../layouts";
 import { UserData } from "../../../types/types";
-import { AxiosError, isAxiosError } from "axios";
 
 interface ErrorResponse {
   error: string;

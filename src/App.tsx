@@ -1,4 +1,4 @@
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { RouterProvider, createBrowserRouter } from "react-router";
 import {
   Dashboard,
   DashboardNotes,
@@ -12,8 +12,7 @@ import {
   TermsOfService,
   TodayCards,
 } from "./pages";
-import { ThemeProvider } from "@mui/material";
-import { theme } from "./theme/theme";
+import { ThemeProvider } from "@/components/theme-provider";
 
 const router = createBrowserRouter([
   { path: "/", element: <Home /> },
@@ -31,7 +30,7 @@ const router = createBrowserRouter([
 
 function App() {
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider defaultTheme="light">
       <RouterProvider router={router} />
     </ThemeProvider>
   );

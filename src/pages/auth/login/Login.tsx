@@ -1,7 +1,7 @@
 import { Stack, TextField, Typography } from "@mui/material";
 import { AxiosError, AxiosResponse } from "axios";
 import { useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router";
 import { client } from "../../../axios/axios";
 import { CustomButton } from "../../../components";
 import { AuthLayout } from "../../../layouts";

@@ -1,6 +1,6 @@
-import { useNavigate } from "react-router-dom";
-import { Button } from "../ui/button";
 import { ArrowRight } from "lucide-react";
+import { useNavigate } from "react-router";
+import { Button } from "../ui/button";
 
 export default function HomeHeader() {
   const navigate = useNavigate();
