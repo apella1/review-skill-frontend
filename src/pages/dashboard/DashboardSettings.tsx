@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { DashboardLayout, ProtectedLayout } from "../../layouts";
 import { DashboardMainContent } from "../../components";
+import ProtectedLayout from "@/layouts/protected-layout";
+import DashboardLayout from "@/layouts/dashboard-layout";
 
 export default function DashboardSettings() {
   const [twoFactorAuth, setTwoFactorAuth] = useState<boolean>(false);

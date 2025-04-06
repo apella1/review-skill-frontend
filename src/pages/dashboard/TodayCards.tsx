@@ -1,5 +1,6 @@
+import DashboardLayout from "@/layouts/dashboard-layout";
+import ProtectedLayout from "@/layouts/protected-layout";
 import { Stack } from "@mui/material";
-import { DashboardLayout, ProtectedLayout } from "../../layouts";
 import { FcInfo } from "react-icons/fc";
 
 export default function TodayCards() {
@@ -14,7 +15,7 @@ export default function TodayCards() {
         >
           {cards.length === 0 ? (
             <Stack justifyContent={"center"} alignItems={"center"}>
-              <FcInfo className="text-3xl"/>
+              <FcInfo className="text-3xl" />
               <p>No cards due today</p>
               <p>Have a good day!</p>
             </Stack>

@@ -1,7 +1,7 @@
 export { default as Home } from "./home/Home";
 export { default as Docs } from "./docs/Docs";
-export { default as Login } from "./auth/login/Login";
-export { default as SignUp } from "./auth/sign-up/SignUp";
+export { default as Login } from "./auth/login/login";
+export { default as SignUp } from "./auth/sign-up/signup";
 export { default as Dashboard } from "./dashboard/Dashboard";
 export { default as TodayCards } from "./dashboard/TodayCards";
 export { default as DashboardNotes } from "./dashboard/DashboardNotes";

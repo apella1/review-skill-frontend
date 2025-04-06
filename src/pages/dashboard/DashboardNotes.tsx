@@ -1,4 +1,5 @@
-import { DashboardLayout, ProtectedLayout } from "../../layouts";
+import DashboardLayout from "@/layouts/dashboard-layout";
+import ProtectedLayout from "@/layouts/protected-layout";
 
 export default function DashboardNotes() {
   return (

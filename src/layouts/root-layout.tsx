@@ -1,14 +1,13 @@
+import { Outlet } from "react-router";
 import { Footer, Navbar } from "../components";
 
-export default function MainLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout() {
   return (
     <section className="px-8 lg:px-16 2xl:px-32 py-8">
       <Navbar />
-      {children}
+      <main className="py-8 flex flex-col min-h-[80vh]">
+        <Outlet />
+      </main>
       <Footer />
     </section>
   );

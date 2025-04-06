@@ -6,9 +6,10 @@ import {
   SelectChangeEvent,
 } from "@mui/material";
 import { useState } from "react";
-import { DashboardLayout, ProtectedLayout } from "../../layouts";
 import { CardSummary } from "../../types/types";
 import { FlashcardSummary } from "../../components";
+import ProtectedLayout from "@/layouts/protected-layout";
+import DashboardLayout from "@/layouts/dashboard-layout";
 
 export default function Dashboard() {
   const [time, setTime] = useState("");

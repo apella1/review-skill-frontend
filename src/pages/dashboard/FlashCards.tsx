@@ -1,8 +1,9 @@
 import { useCallback, useEffect, useState } from "react";
 import { client } from "../../axios/axios";
 import { CustomButton, FlashcardView } from "../../components";
-import { DashboardLayout, ProtectedLayout } from "../../layouts";
 import { DBFlashcard } from "../../types/flashcards";
+import ProtectedLayout from "@/layouts/protected-layout";
+import DashboardLayout from "@/layouts/dashboard-layout";
 
 interface FlashCard {
   title: string;
